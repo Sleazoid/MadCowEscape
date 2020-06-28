@@ -424,7 +424,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       m_AttackTime: 0.5
       m_SustainTime: 0.1
-      m_DecayTime: 1
+      m_DecayTime: 1.4
       m_ScaleWithImpact: 0
       m_HoldForever: 0
     m_ImpactRadius: 100
@@ -541,11 +541,11 @@ PlayableDirector:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2112316374}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_PlayableAsset: {fileID: 11400000, guid: 41e3740d713f32a4bb38d6e668c59add, type: 2}
   m_InitialState: 0
-  m_WrapMode: 2
+  m_WrapMode: 0
   m_DirectorUpdateMode: 1
   m_InitialTime: 0
   m_SceneBindings:
@@ -554,10 +554,6 @@ PlayableDirector:
   - key: {fileID: -477070668635937492, guid: 41e3740d713f32a4bb38d6e668c59add, type: 2}
     value: {fileID: 0}
   - key: {fileID: -7105588541845514770, guid: 41e3740d713f32a4bb38d6e668c59add, type: 2}
-    value: {fileID: 0}
-  - key: {fileID: 1910082672482457000, guid: 41e3740d713f32a4bb38d6e668c59add, type: 2}
-    value: {fileID: 0}
-  - key: {fileID: -8587319310746734014, guid: 41e3740d713f32a4bb38d6e668c59add, type: 2}
     value: {fileID: 0}
   - key: {fileID: 4812795920273889726, guid: 41e3740d713f32a4bb38d6e668c59add, type: 2}
     value: {fileID: 0}
@@ -2497,7 +2493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddcfaaaf2f36d7c479fb67e7e2bcddfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clearedText: {fileID: 0}
+  clearedText: {fileID: 4109494991032605251}
 --- !u!82 &4109494990516368976
 AudioSource:
   m_ObjectHideFlags: 0

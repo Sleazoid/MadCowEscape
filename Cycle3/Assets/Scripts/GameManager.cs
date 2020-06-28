@@ -98,6 +98,10 @@ public class GameManager : MonoBehaviour
             LevelClearedPanelGO.SetActive(false);
             InvokeRepeating("ImpulseNoiseMenu", 2f, 4f);
             currentLevel = 0;
+            if(mainAudio.enabled==false)
+            {
+                mainAudio.enabled = true;
+            }
         }
 
     }

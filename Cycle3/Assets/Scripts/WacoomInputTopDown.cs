@@ -31,8 +31,8 @@ public class WacoomInputTopDown : MonoBehaviour
     private float screenWidth;
     private bool inRange = false;
     private Camera cam;
-    [SerializeField]
-    private GameObject bulletPrefab;
+    //[SerializeField]
+    //private GameObject bulletPrefab;
 
     private bool easeToPos;
     private Vector2 lastPosOutPlayerRange;
@@ -232,30 +232,30 @@ public class WacoomInputTopDown : MonoBehaviour
                 anim.SetFloat("Speed", penDir.sqrMagnitude);
             }
 
-            if (bt1Press)
-            {
-                //   rb.AddForce(this.transform.up * swipeForce);
-            }
+            //if (bt1Press)
+            //{
+            //    //   rb.AddForce(this.transform.up * swipeForce);
+            //}
             //Debug.Log(Pen.current.device.displayName);
             //Debug.Log(Pen.current.position.ReadValue());
             //Debug.Log(Pen.current.tilt.ReadValue());
 
-            if (curPenPos.x > maxX)
-            {
-                maxX = curPenPos.x;
-            }
-            if (curPenPos.x < minX)
-            {
-                minX = curPenPos.x;
-            }
-            if (curPenPos.y > MaxY)
-            {
-                MaxY = curPenPos.y;
-            }
-            if (curPenPos.y < minY)
-            {
-                minY = curPenPos.y;
-            }
+            //if (curPenPos.x > maxX)
+            //{
+            //    maxX = curPenPos.x;
+            //}
+            //if (curPenPos.x < minX)
+            //{
+            //    minX = curPenPos.x;
+            //}
+            //if (curPenPos.y > MaxY)
+            //{
+            //    MaxY = curPenPos.y;
+            //}
+            //if (curPenPos.y < minY)
+            //{
+            //    minY = curPenPos.y;
+            //}
         }
     }
     private void FixedUpdate()

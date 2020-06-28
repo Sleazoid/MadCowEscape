@@ -48,8 +48,7 @@ public class EnemyMove : MonoBehaviour
         triggerCol = GetComponent<CapsuleCollider2D>();
         anim = GetComponent<Animator>();
         particleCol = bloodParticles.GetComponent<ParticleCollision>();
-        noticeArea = Transform.FindObjectOfType<EnemyNoticeAreaScript>();
-       
+        noticeArea = transform.GetComponentInChildren<EnemyNoticeAreaScript>();       
     }
     private void OnEnable()
     {
@@ -60,12 +59,9 @@ public class EnemyMove : MonoBehaviour
         WacoomInputTopDown.AttackEvent -= EnemyIsDead;
     }
     // Update is called once per frame
-    void Update()
-    {
 
-    }
     private void OnDrawGizmos()
-    {      
+    {
         Gizmos.DrawRay(this.transform.position, transform.right * hitDistance);
     }
     private void OnDestroy()
@@ -85,12 +81,12 @@ public class EnemyMove : MonoBehaviour
     //    }
     //    //  yield return null;
     //}
-    private void ShootBullet()
-    {
-        Vector2 dirNormalized = (player.position - this.transform.position).normalized;
-        GameObject bullet = Instantiate(bulletPrefab, this.transform.position, Quaternion.identity);
-        bullet.GetComponent<Rigidbody2D>().AddForce(dirNormalized * shootForce, ForceMode2D.Impulse);
-    }
+    //private void ShootBullet()
+    //{
+    //    Vector2 dirNormalized = (player.position - this.transform.position).normalized;
+    //    GameObject bullet = Instantiate(bulletPrefab, this.transform.position, Quaternion.identity);
+    //    bullet.GetComponent<Rigidbody2D>().AddForce(dirNormalized * shootForce, ForceMode2D.Impulse);
+    //}
 
     private void FixedUpdate()
     {
