@@ -1,0 +1,204 @@
+{
+    "name": "InputActions",
+    "maps": [
+        {
+            "name": "Wacom",
+            "id": "1c7f0b50-9251-4864-b8d4-b6072c55da98",
+            "actions": [
+                {
+                    "name": "Press",
+                    "type": "Button",
+                    "id": "ab4f7ddf-50a6-4108-9eec-6dee451ba468",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Range",
+                    "type": "Button",
+                    "id": "755e66d7-a60a-418f-908c-2d4437d79e50",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "oo",
+                    "type": "Button",
+                    "id": "4bd9390c-adc3-4bc1-94c6-5b2c2b1d6e57",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "btn1",
+                    "type": "Button",
+                    "id": "7b8d66ac-73b7-47f4-baeb-f3c33cab7989",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "btn2",
+                    "type": "Button",
+                    "id": "55ea61a7-277c-4802-a6e0-93edf05b7742",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "btn3",
+                    "type": "Button",
+                    "id": "9463439c-9b44-4677-a93d-298c30e87b44",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "btn4",
+                    "type": "Button",
+                    "id": "f7a0b9bc-c47f-45eb-a611-3cae287d169d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "eraser",
+                    "type": "Button",
+                    "id": "c9194b1f-7d42-478b-92a3-462d4abbaace",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Quit",
+                    "type": "Button",
+                    "id": "05ca4380-fd93-498f-b84d-0b97e95e8f56",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Retry",
+                    "type": "Button",
+                    "id": "b6eac690-e562-429c-9b21-0b0b833feaab",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "24317d3a-1396-4143-9f49-8a893dac93f3",
+                    "path": "<Pen>/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Press",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "67c312f5-1dc9-49c0-9da0-b5f124897a5c",
+                    "path": "<Pen>/inRange",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Range",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5c196637-7976-4a53-8109-7b63e9ff82ce",
+                    "path": "<Pen>/tip",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "oo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f1026b75-642e-4b7e-b565-6102006d52d3",
+                    "path": "<Pen>/barrel1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "btn1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fde67d1f-813e-43fe-89f4-568905337efd",
+                    "path": "<Pen>/barrel2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "btn2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "83f71b1c-5e85-45da-a79c-e17528c3fb61",
+                    "path": "<Pen>/barrel3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "btn3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7d792ef8-415e-493b-8a22-4e9f95754511",
+                    "path": "<Pen>/barrel4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "btn4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0ff864f2-efe6-4feb-b375-c62e5c4cd9aa",
+                    "path": "<Pen>/eraser",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "eraser",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d123f5f1-ce4a-474e-a297-bb5f87caccb2",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Quit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9edc0686-1b29-478d-a7a2-0410131cc911",
+                    "path": "<Keyboard>/0",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Retry",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
