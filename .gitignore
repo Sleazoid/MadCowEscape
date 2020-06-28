@@ -2,13 +2,13 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Ll]ogs/
-/[Mm]emoryCaptures/
+Cycle3/[Ll]ibrary/
+Cycle3/[Tt]emp/
+Cycle3/[Oo]bj/
+Cycle3/[Bb]uild/
+Cycle3/[Bb]uilds/
+Cycle3/[Ll]ogs/
+Cycle3/[Mm]emoryCaptures/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
@@ -58,3 +58,4 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+Cycle3/Library/ShaderCache/d/d95630249b391d91105100820c44a14d.bin
