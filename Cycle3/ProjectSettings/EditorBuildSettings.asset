@@ -9,8 +9,11 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: e89fedc2c59bacd45b67dda07e2d53d6
   - enabled: 1
-    path: Assets/Scenes/DirectionalTunnelScene.unity
+    path: Assets/Scenes/Level1.unity
     guid: e6989254df2ec0b41b074a22b18a610d
+  - enabled: 1
+    path: Assets/Scenes/Level2.unity
+    guid: 40662df76fb12594c9308d69543e30c1
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 66d059bfce16d4343bfab03aa35d8f74,
       type: 2}

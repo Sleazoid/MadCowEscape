@@ -21,7 +21,7 @@ public class LevelClearScript : MonoBehaviour
 
     public void Continue()
     {
-        GameManager.Instance.LoadNewLevel(false);
+        GameManager.Instance.LoadNewLevel(true);
     }
     public void SetLevelText(int curLevel)
     {

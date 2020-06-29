@@ -32,8 +32,12 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private CinemachineImpulseSource impulseNoiseSourceMenu;
     private LevelClearScript levelClearScript;
+    private int numberOfEnemies;
+    private int diedEnemiesCount;
+    private GoalScript goalScript;
     public static GameManager Instance { get => instance; }
     public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
+    public GoalScript GoalScript { get => goalScript; set => goalScript = value; }
 
     private void Awake()
     {
@@ -53,7 +57,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
     private void OnEnable()
     {
@@ -70,7 +74,7 @@ public class GameManager : MonoBehaviour
         CancelInvoke();
         if (scene.buildIndex != 0)
         {
-            
+
             MainMenuCanvas.SetActive(false);
             mainAudio.enabled = true;
             LevelFailedPanelGO.SetActive(false);
@@ -85,10 +89,13 @@ public class GameManager : MonoBehaviour
             //{
             //    GameOverDisableLists[i].SetActive(true);
             //}
-            currentLevel++;
+            currentLevel = SceneManager.GetActiveScene().buildIndex;
             InvokeRepeating("ImpulseNoise", 2f, 4f);
             levelClearScript = LevelClearedPanelGO.GetComponent<LevelClearScript>();
             levelClearScript.SetLevelText(currentLevel);
+            
+            numberOfEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length;
+            diedEnemiesCount = 0;
         }
         else
         {
@@ -98,7 +105,7 @@ public class GameManager : MonoBehaviour
             LevelClearedPanelGO.SetActive(false);
             InvokeRepeating("ImpulseNoiseMenu", 2f, 4f);
             currentLevel = 0;
-            if(mainAudio.enabled==false)
+            if (mainAudio.enabled == false)
             {
                 mainAudio.enabled = true;
             }
@@ -113,7 +120,7 @@ public class GameManager : MonoBehaviour
     {
         impulseNoiseSourceMenu.GenerateImpulse();
     }
-    
+
     public void CollisionImpulseEffect()
     {
         impulseSource.GenerateImpulse();
@@ -138,6 +145,7 @@ public class GameManager : MonoBehaviour
 
     public void LevelCleared()
     {
+        wacoomInputs.SetAttackAnimFalse();
         CancelInvoke();
         mainAudio.enabled = false;
         wacoomInputs.enabled = false;
@@ -182,12 +190,27 @@ public class GameManager : MonoBehaviour
         if (next)
         {
             Scene thisScene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(thisScene.buildIndex + 1);
+            int nextScene = thisScene.buildIndex + 1;
+            Debug.Log(nextScene);
+            Debug.Log(SceneManager.sceneCount);
+            if (SceneManager.sceneCountInBuildSettings<=nextScene)
+            {
+                nextScene = 0;
+            }
+            SceneManager.LoadScene(nextScene);
         }
         else
         {
             Scene thisScene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(thisScene.buildIndex);
+        }
+    }
+    public void EnemyDied()
+    {
+        diedEnemiesCount++;
+        if(diedEnemiesCount>= numberOfEnemies)
+        {
+            goalScript.OpenTheGoal();
         }
     }
 }

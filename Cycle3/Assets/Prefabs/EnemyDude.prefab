@@ -73,6 +73,7 @@ MonoBehaviour:
   IgnoreMe:
     serializedVersion: 2
     m_Bits: 3072
+  noticeDistance: 6
 --- !u!1 &493725094
 GameObject:
   m_ObjectHideFlags: 0
@@ -4979,7 +4980,7 @@ GameObject:
   - component: {fileID: 24328348}
   m_Layer: 10
   m_Name: EnemyDude
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5125,7 +5126,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.015625015, y: 0}
-  m_Size: {x: 0.47, y: 0.87}
+  m_Size: {x: 0.33, y: 0.71}
   m_Direction: 0
 --- !u!82 &24328347
 AudioSource:
@@ -5244,4 +5245,9 @@ MonoBehaviour:
   noticedClips:
   - {fileID: 8300000, guid: 3b7ffe8b38d084047bb907c6587b5192, type: 3}
   - {fileID: 8300000, guid: 513287dccfd1c4641bc405194487a045, type: 3}
+  - {fileID: 8300000, guid: 9070a6aa4c13b0844b700410aea3982f, type: 3}
+  - {fileID: 8300000, guid: e820ec3c9ec9fcb4697233962ee9e4a6, type: 3}
+  - {fileID: 8300000, guid: 61ad4eb944c4200478c560ecac95e713, type: 3}
+  - {fileID: 8300000, guid: 1ccc43364389c3f4c9a896cc85b6d0e6, type: 3}
+  - {fileID: 8300000, guid: 2d07e26f25427944fa79f7bb1265d292, type: 3}
   attackClips: []

@@ -6,26 +6,32 @@ public class GoalScript : MonoBehaviour
 {
     [SerializeField]
     private Animator freedomVolumeAnimator;
-
-   
+    [SerializeField]
+    private GameObject freedomVolumeGO;
+    [SerializeField]
+    private GameObject CanvasGO;
+    [SerializeField]
+    private GameObject BlockColGo;
+ 
     private WacoomInputTopDown playerMove;
     // Start is called before the first frame update
     void Start()
     {
         playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<WacoomInputTopDown>();
 
+        GameManager.Instance.GoalScript = this;
+        CanvasGO.SetActive(false);
     }
-
-    // Update is called once per frame
-    void Update()
+    public void OpenTheGoal()
     {
-        
+        BlockColGo.SetActive(false);
+        CanvasGO.SetActive(true);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.tag.Equals("Player"))
         {
-            freedomVolumeAnimator.transform.parent.gameObject.SetActive(true);
+            freedomVolumeGO.SetActive(true);
             GameManager.Instance.LevelCleared();
             playerMove.Muuu();
            // freedomVolumeAnimator.Play("freedomVolume");

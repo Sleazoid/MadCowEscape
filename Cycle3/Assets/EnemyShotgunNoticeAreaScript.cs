@@ -4,10 +4,10 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 
-public class EnemyNoticeAreaScript : MonoBehaviour
+public class EnemyShotgunNoticeAreaScript : MonoBehaviour
 {
     private bool playerWasOnArea = false;
-    private EnemyMove enemyMove;
+    private EnemyShotgunMove enemyMove;
     private Transform playerTransform;
     public LayerMask IgnoreMe;
     private Animator anim;
@@ -18,7 +18,7 @@ public class EnemyNoticeAreaScript : MonoBehaviour
     void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        enemyMove = this.gameObject.transform.parent.GetComponent<EnemyMove>();
+        enemyMove = this.gameObject.transform.parent.GetComponent<EnemyShotgunMove>();
         anim = enemyMove.gameObject.GetComponent<Animator>();
         sounds = enemyMove.gameObject.GetComponent<CharacterSounds>();
     }
@@ -41,7 +41,7 @@ public class EnemyNoticeAreaScript : MonoBehaviour
             {
                 if (hit.collider.gameObject.tag.Equals("Player") && enemyMove.HuntPlayer == false)
                 {
-                    anim.SetBool("enemyNoticed", true);
+                    enemyMove.StartShooting();
                     enemyMove.HuntPlayer = true;
                     sounds.PlayNoticedClip();
                     //   Debug.Log("PLAYER NOTICEd");
@@ -52,17 +52,14 @@ public class EnemyNoticeAreaScript : MonoBehaviour
                 //    Debug.Log(hit.collider.name);
                 //}
             }
+            else
+            {
+                enemyMove.StopShooting();
+                enemyMove.HuntPlayer = false;
+            }
         }
 
 
     }
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject.tag.Equals("Player"))
-    //    {
-
-    //        playerWasOnArea = true;
-
-    //    }
-    //}
+ 
 }

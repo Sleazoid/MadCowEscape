@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
-public class EnemyMove : MonoBehaviour
+public class EnemyShotgunMove : MonoBehaviour
 {
     private Transform player;
     [SerializeField]
     private float moveSpeed;
     [SerializeField]
-    private float timeToShoot;
+    private float fireRate;
     [SerializeField]
     private float shootForce;
     [SerializeField]
@@ -27,7 +27,7 @@ public class EnemyMove : MonoBehaviour
     [SerializeField]
     private GameObject bloodParticles;
     private ParticleCollision particleCol;
-    private EnemyNoticeAreaScript noticeArea;
+    private EnemyShotgunNoticeAreaScript noticeArea;
     private CharacterSounds sounds;
     private bool huntPlayer = false;
     [SerializeField]
@@ -48,7 +48,7 @@ public class EnemyMove : MonoBehaviour
         triggerCol = GetComponent<CapsuleCollider2D>();
         anim = GetComponent<Animator>();
         particleCol = bloodParticles.GetComponent<ParticleCollision>();
-        noticeArea = transform.GetComponentInChildren<EnemyNoticeAreaScript>();
+        noticeArea = transform.GetComponentInChildren<EnemyShotgunNoticeAreaScript>();
        
     }
     private void OnEnable()
@@ -112,8 +112,8 @@ public class EnemyMove : MonoBehaviour
             //}
             if (Vector2.Distance(this.transform.position, player.position) < hitDistance)
             {
-                anim.SetBool("Hitting", true);
-           
+                //anim.SetBool("Hitting", true);
+                //anim.Play("haulikkoDudeShoot");
             }
         }
         if(playerMove.Dead && walkAway && !dead)
@@ -181,8 +181,32 @@ public class EnemyMove : MonoBehaviour
             isOnPlayerRange = false;
         }
     }
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    playerMove.GetDamage();
-    //}
+    public void StartShooting()
+    {
+        anim.Play("haulikkoDudeAim");
+        // InvokeRepeating("ShootInvoke", fireRate, fireRate);
+        StartCoroutine("ShootingTiming");
+    }
+    private IEnumerator ShootingTiming()
+    {
+        while(1==1)
+        {
+            yield return new WaitForSeconds(fireRate);
+            anim.Play("haulikkoDudeShoot");
+
+
+            yield return null;
+        }
+       
+    }
+    private void ShootInvoke()
+    {
+        anim.Play("haulikkoDudeShoot");
+    }
+    public void StopShooting()
+    {
+        StopAllCoroutines();
+        anim.Play("haulikkoDudeIdle");
+
+    }
 }

@@ -48,9 +48,15 @@ public class WacoomInputTopDown : MonoBehaviour
     private float dyingForce = 5f;
     private bool dead = false;
     private SpriteRenderer rend;
+    private bool dashEnabled = true;
+    [SerializeField]
+    private float dashDisabledTime = 0.2f;
+    [SerializeField]
+    private float dashAttackTime = 0.2f;
     private CharacterSounds sounds;
     [SerializeField]
     private GameObject bloodGO;
+    private Pen curPen;
     public bool Dead { get => dead; set => dead = value; }
 
     public delegate void OnAttackStateChange(bool state);
@@ -67,10 +73,11 @@ public class WacoomInputTopDown : MonoBehaviour
         inputActions.Wacom.Range.canceled += ctx => InRangeCancelled();
         inputActions.Wacom.btn1.performed += ctx => Btn1();
         inputActions.Wacom.btn1.canceled += ctx => Btn1Released();
-        inputActions.Wacom.btn2.performed += ctx => Btn2();
-        inputActions.Wacom.btn3.performed += ctx => Btn3();
-        inputActions.Wacom.btn4.performed += ctx => Btn4();
+        //inputActions.Wacom.btn2.performed += ctx => Btn2();
+        //inputActions.Wacom.btn3.performed += ctx => Btn3();
+        //inputActions.Wacom.btn4.performed += ctx => Btn4();
         inputActions.Wacom.eraser.performed += ctx => Eraser();
+        curPen = Pen.current;
         // inputActions.Wacom.Press.performed += ctx =>  valuePress = ctx.ReadValue<Vector2>();
 
     }
@@ -105,18 +112,18 @@ public class WacoomInputTopDown : MonoBehaviour
 
         bt1Press = false;
     }
-    public void Btn3()
-    {
-        Debug.Log("btn3");
-    }
-    public void Btn2()
-    {
-        Debug.Log("btn2");
-    }
-    public void Btn4()
-    {
-        Debug.Log("btn4");
-    }
+    //public void Btn3()
+    //{
+    //    Debug.Log("btn3");
+    //}
+    //public void Btn2()
+    //{
+    //    Debug.Log("btn2");
+    //}
+    //public void Btn4()
+    //{
+    //    Debug.Log("btn4");
+    //}
     public void InRange()
     {
         inRange = true;
@@ -131,9 +138,9 @@ public class WacoomInputTopDown : MonoBehaviour
     }
     public void Tip()
     {
-        curPenPos = Pen.current.position.ReadValue();
+        curPenPos = curPen.position.ReadValue();
 
-        if (timeFromLastTip <= rollTipTime)
+        if (timeFromLastTip <= rollTipTime && dashEnabled)
         {
             Attack();
         }
@@ -153,9 +160,15 @@ public class WacoomInputTopDown : MonoBehaviour
             rb.AddForce(transform.right * rollForce, ForceMode2D.Impulse);
             dashTrail.InvokeRepeating("SpawnTrailPart", 0, 0.05f);
             InvokeRepeating("AttackRepeating",0.05f, 0.05f);
-            Invoke("RollIsOver", 0.3f);
+            Invoke("RollIsOver", dashAttackTime);
             sounds.PlayAttackClip();
+            dashEnabled = false;
+            Invoke("EnableDash", dashDisabledTime);
         }
+    }
+   public void EnableDash()
+    {
+        dashEnabled = true;
     }
     private void AttackRepeating()
     {
@@ -174,7 +187,10 @@ public class WacoomInputTopDown : MonoBehaviour
     {
         //Debug.Log("Press performed");
     }
-
+    public void SetAttackAnimFalse()
+    {
+        anim.SetBool("Attack", false);
+    }
     public void PressStarted()
     {
         if (!Dead)
@@ -183,7 +199,7 @@ public class WacoomInputTopDown : MonoBehaviour
             // drawing = true;
             // Debug.Log("Press Started");
             drawing = true;
-            pressStartPos = Pen.current.position.ReadValue();
+            pressStartPos = curPen.position.ReadValue();
             anim.SetFloat("Speed", 0);
             //InvokeRepeating("Shoot", 0.2f, shootDelay);
         }
@@ -192,7 +208,7 @@ public class WacoomInputTopDown : MonoBehaviour
     {
         //drawing = false;
         //Debug.Log("Press Cancelled");
-        pressEndPos = Pen.current.position.ReadValue();
+        pressEndPos = curPen.position.ReadValue();
         drawing = false;
 
         //SwipeObject();
@@ -205,6 +221,7 @@ public class WacoomInputTopDown : MonoBehaviour
     private void OnDisable()
     {
         inputActions.Disable();
+        CancelInvoke();
     }
     private void OnDrawGizmos()
     {
@@ -217,7 +234,7 @@ public class WacoomInputTopDown : MonoBehaviour
         if (!Dead)
         {
             timeFromLastTip += Time.deltaTime;
-            curPenPos = Pen.current.position.ReadValue();
+            curPenPos = curPen.position.ReadValue();
             penPosWorld = cam.ScreenToWorldPoint(curPenPos);
             penDir = (penPosWorld - this.transform.position);
             if (!attacking)
@@ -339,5 +356,8 @@ public class WacoomInputTopDown : MonoBehaviour
     //    rb.AddForce(ranged/*.normalized* swipeForce*/, ForceMode2D.Impulse);
     //}
 
-
+    private void OnDestroy()
+    {
+        CancelInvoke();
+    }
 }

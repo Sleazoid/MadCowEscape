@@ -351,7 +351,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -3461544312542182418, guid: 138e85729577efb48a6b183fb1ca3cc4,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1324,7 +1324,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -3461544312542182418, guid: 138e85729577efb48a6b183fb1ca3cc4,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2582,7 +2582,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -3461544312542182418, guid: 138e85729577efb48a6b183fb1ca3cc4,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3043,10 +3043,10 @@ MonoBehaviour:
   minY: 0
   maxX: 0
   minX: 0
-  bulletPrefab: {fileID: 8528992729477798654, guid: a5da231d60e6dd444b8b3887fbe2f5e4,
-    type: 3}
   rollTipTime: 0.3
   dyingForce: 5
+  dashDisabledTime: 0.2
+  dashAttackTime: 0.2
   bloodGO: {fileID: 597930093}
 --- !u!114 &1494810152
 MonoBehaviour:
