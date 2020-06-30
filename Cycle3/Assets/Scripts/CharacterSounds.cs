@@ -9,6 +9,7 @@ public class CharacterSounds : MonoBehaviour
     public List<AudioClip> deathClips;
     public List<AudioClip> noticedClips;
     public List<AudioClip> attackClips;
+    public List<AudioClip> gunClips;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +17,12 @@ public class CharacterSounds : MonoBehaviour
     }
 
    
-
+    public void PlayGunClip()
+    {
+        int randomIndex = Random.Range(0, gunClips.Count);
+        audioSource.clip = gunClips[randomIndex];
+        audioSource.Play();
+    }
 
     public void PlayDeathClip()
     {

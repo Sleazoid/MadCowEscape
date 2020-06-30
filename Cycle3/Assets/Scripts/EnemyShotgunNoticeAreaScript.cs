@@ -21,6 +21,7 @@ public class EnemyShotgunNoticeAreaScript : MonoBehaviour
         enemyMove = this.gameObject.transform.parent.GetComponent<EnemyShotgunMove>();
         anim = enemyMove.gameObject.GetComponent<Animator>();
         sounds = enemyMove.gameObject.GetComponent<CharacterSounds>();
+       
     }
     private void OnDrawGizmos()
     {
@@ -34,7 +35,7 @@ public class EnemyShotgunNoticeAreaScript : MonoBehaviour
         {
             Vector3 rayDir = playerTransform.position - this.transform.position;
             Debug.DrawRay(this.transform.position, rayDir * noticeDistance);
-            Ray ray;
+           
             //  Vector3 rayDir = playerTransform.position - this.transform.position;
             RaycastHit2D hit = Physics2D.Raycast(this.transform.position, rayDir, noticeDistance, ~IgnoreMe);
             if (hit)
@@ -43,7 +44,7 @@ public class EnemyShotgunNoticeAreaScript : MonoBehaviour
                 {
                     enemyMove.StartShooting();
                     enemyMove.HuntPlayer = true;
-                    sounds.PlayNoticedClip();
+                    //sounds.PlayNoticedClip();
                     //   Debug.Log("PLAYER NOTICEd");
                 }
 
@@ -54,7 +55,7 @@ public class EnemyShotgunNoticeAreaScript : MonoBehaviour
             }
             else
             {
-                enemyMove.StopShooting();
+                //enemyMove.StopShooting();
                 enemyMove.HuntPlayer = false;
             }
         }

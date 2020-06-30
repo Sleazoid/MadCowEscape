@@ -28,6 +28,7 @@ public class EnemyMove : MonoBehaviour
     private GameObject bloodParticles;
     private ParticleCollision particleCol;
     private EnemyNoticeAreaScript noticeArea;
+    private SpriteRenderer rend;
     private CharacterSounds sounds;
     private bool huntPlayer = false;
     [SerializeField]
@@ -49,7 +50,7 @@ public class EnemyMove : MonoBehaviour
         anim = GetComponent<Animator>();
         particleCol = bloodParticles.GetComponent<ParticleCollision>();
         noticeArea = transform.GetComponentInChildren<EnemyNoticeAreaScript>();
-       
+        rend = GetComponent<SpriteRenderer>();
     }
     private void OnEnable()
     {
@@ -126,7 +127,11 @@ public class EnemyMove : MonoBehaviour
         }
 
     }
-
+    public void PlayerIsDead()
+    {
+        anim.SetBool("enemyNoticed", true);
+        walkAway = true;
+    }
     public void TryHitPlayer()
     {
         playerMove.GetDamage(this.transform.position);
@@ -153,7 +158,9 @@ public class EnemyMove : MonoBehaviour
             rb.AddForce(impactDir.normalized * impactForce, ForceMode2D.Impulse);
             StartCoroutine(StopBlood());
             WacoomInputTopDown.AttackEvent -= EnemyIsDead;
+           
             GameManager.Instance.EnemyDied();
+         
         }
      
     }
@@ -163,7 +170,9 @@ public class EnemyMove : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         bloodParticles.GetComponent<ParticleSystem>().Stop();
         rb.velocity = new Vector2(0, 0);
-       yield return null;
+        anim.enabled = false;
+        rend.sortingOrder = 0;
+        yield return null;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

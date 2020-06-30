@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour
     private int numberOfEnemies;
     private int diedEnemiesCount;
     private GoalScript goalScript;
+    private EnemyShotgunMove[] shotGunEnemyScripts;
+    private EnemyMove[] basicEnemyScripts;
     public static GameManager Instance { get => instance; }
     public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
     public GoalScript GoalScript { get => goalScript; set => goalScript = value; }
@@ -54,11 +56,7 @@ public class GameManager : MonoBehaviour
         inputActions.Wacom.Quit.performed += ctx => QuitGame();
         inputActions.Wacom.Retry.performed += ctx => Retry();
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
+ 
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -96,6 +94,8 @@ public class GameManager : MonoBehaviour
             
             numberOfEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length;
             diedEnemiesCount = 0;
+            shotGunEnemyScripts = FindObjectsOfType<EnemyShotgunMove>();
+            basicEnemyScripts = FindObjectsOfType<EnemyMove>();
         }
         else
         {
@@ -182,6 +182,14 @@ public class GameManager : MonoBehaviour
     }
     public void PlayerDead()
     {
+        for (int i = 0; i < shotGunEnemyScripts.Length; i++)
+        {
+            shotGunEnemyScripts[i].PlayerIsDead();
+        }
+        for (int i = 0; i < basicEnemyScripts.Length; i++)
+        {
+            basicEnemyScripts[i].PlayerIsDead();
+        }
         LevelFailed();
     }
 

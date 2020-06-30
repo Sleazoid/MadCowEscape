@@ -1,6 +1,7 @@
 ﻿using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
@@ -23,17 +24,22 @@ public class EnemyShotgunMove : MonoBehaviour
     private CapsuleCollider2D triggerCol;
     private bool isOnPlayerRange = false;
     [SerializeField]
-    private float impactForce= 2;
+    private float impactForce = 2;
     [SerializeField]
     private GameObject bloodParticles;
     private ParticleCollision particleCol;
     private EnemyShotgunNoticeAreaScript noticeArea;
     private CharacterSounds sounds;
     private bool huntPlayer = false;
+    private bool rotateTowardsPlayer = true;
     [SerializeField]
     private float hitDistance = 0.4f;
+    public LayerMask IgnoreMe;
     private bool walkAway = false;
-   
+    private bool playerDead = false;
+    private SpriteRenderer rend;
+    [SerializeField]
+    private float stillTimeAfterShot = 1f;
     public bool HuntPlayer { get => huntPlayer; set => huntPlayer = value; }
     public bool WalkAway { get => walkAway; set => walkAway = value; }
 
@@ -49,7 +55,7 @@ public class EnemyShotgunMove : MonoBehaviour
         anim = GetComponent<Animator>();
         particleCol = bloodParticles.GetComponent<ParticleCollision>();
         noticeArea = transform.GetComponentInChildren<EnemyShotgunNoticeAreaScript>();
-       
+        rend = GetComponent<SpriteRenderer>();
     }
     private void OnEnable()
     {
@@ -91,7 +97,7 @@ public class EnemyShotgunMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(!dead && HuntPlayer && !playerMove.Dead)
+        if (!dead && HuntPlayer && rotateTowardsPlayer && !playerMove.Dead)
         {
             Vector2 dirNormalized = (player.position - this.transform.position).normalized;
             float angle = Mathf.Atan2(dirNormalized.y, dirNormalized.x) * Mathf.Rad2Deg;
@@ -99,7 +105,7 @@ public class EnemyShotgunMove : MonoBehaviour
 
             //if (moving)
             //{
-                rb.MovePosition(rb.position + dirNormalized * moveSpeed * Time.fixedDeltaTime);
+            //rb.MovePosition(rb.position + dirNormalized * moveSpeed * Time.fixedDeltaTime);
             //}
             //if (Vector2.Distance(this.transform.position, player.position) < 4f && moving == true)
             //{
@@ -110,15 +116,15 @@ public class EnemyShotgunMove : MonoBehaviour
             //{
             //    moving = true;
             //}
-            if (Vector2.Distance(this.transform.position, player.position) < hitDistance)
-            {
-                //anim.SetBool("Hitting", true);
-                //anim.Play("haulikkoDudeShoot");
-            }
+            //if (Vector2.Distance(this.transform.position, player.position) < hitDistance)
+            //{
+            //    //anim.SetBool("Hitting", true);
+            //    //anim.Play("haulikkoDudeShoot");
+            //}
         }
-        if(playerMove.Dead && walkAway && !dead)
+        if (playerMove.Dead && walkAway && !dead)
         {
-            Vector2 dirNormalized = ( this.transform.position - player.position ).normalized;
+            Vector2 dirNormalized = (this.transform.position - player.position).normalized;
             rb.MovePosition(rb.position + dirNormalized * moveSpeed * Time.fixedDeltaTime);
             moveSpeed = 0.5f;
             float angle = Mathf.Atan2(dirNormalized.y, dirNormalized.x) * Mathf.Rad2Deg;
@@ -134,16 +140,19 @@ public class EnemyShotgunMove : MonoBehaviour
     }
     private void EnemyIsDead(bool value)
     {
-        if(isOnPlayerRange && !dead)
+        if (isOnPlayerRange && !dead)
         {
+            CancelInvoke();
             playerMove.EnableDash();
             GameManager.Instance.CollisionImpulseEffect();
-            anim.Play("enemyDead");
+            anim.Play("haulikkoDudeDead");
             noticeArea.gameObject.SetActive(false);
             sounds.PlayDeathClip();
-            int randomZRot = Random.Range(0, 360);
+            //  int randomZRot = Random.Range(0, 360);
+            Vector2 dirImpact = this.transform.position - player.position;
+            float angle = Mathf.Atan2(dirImpact.y, dirImpact.x) * Mathf.Rad2Deg;
             particleCol.ParticlesOn();
-            bloodParticles.transform.eulerAngles = new Vector3(0, 0, randomZRot);
+            bloodParticles.transform.eulerAngles = new Vector3(0, 0, angle);
             bloodParticles.GetComponent<Animator>().SetTrigger("Start");
             bloodParticles.GetComponent<ParticleSystem>().Play();
             //anim.SetBool("Dead", true);
@@ -154,8 +163,9 @@ public class EnemyShotgunMove : MonoBehaviour
             StartCoroutine(StopBlood());
             WacoomInputTopDown.AttackEvent -= EnemyIsDead;
             GameManager.Instance.EnemyDied();
+            rend.sortingOrder = 0;
         }
-     
+
     }
 
     private IEnumerator StopBlood()
@@ -163,7 +173,7 @@ public class EnemyShotgunMove : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         bloodParticles.GetComponent<ParticleSystem>().Stop();
         rb.velocity = new Vector2(0, 0);
-       yield return null;
+        yield return null;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -171,7 +181,7 @@ public class EnemyShotgunMove : MonoBehaviour
         if (collision.gameObject.tag.Equals("Player"))
         {
             isOnPlayerRange = true;
-          
+
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -183,21 +193,26 @@ public class EnemyShotgunMove : MonoBehaviour
     }
     public void StartShooting()
     {
-        anim.Play("haulikkoDudeAim");
-        // InvokeRepeating("ShootInvoke", fireRate, fireRate);
-        StartCoroutine("ShootingTiming");
-    }
-    private IEnumerator ShootingTiming()
-    {
-        while(1==1)
+        if (!playerDead)
         {
-            yield return new WaitForSeconds(fireRate);
-            anim.Play("haulikkoDudeShoot");
-
-
-            yield return null;
+            anim.Play("haulikkoDudeAim");
+            sounds.PlayAttackClip();
+            // InvokeRepeating("ShootInvoke", fireRate, fireRate);
+            // StartCoroutine("ShootingTiming");
+            Invoke("ShootingTiming", fireRate);
         }
-       
+
+    }
+    private void ShootingTiming()
+    {
+        //while (1 == 1)
+        //{
+
+        Shoot();
+
+        //    yield return null;
+        //}
+
     }
     private void ShootInvoke()
     {
@@ -207,6 +222,61 @@ public class EnemyShotgunMove : MonoBehaviour
     {
         StopAllCoroutines();
         anim.Play("haulikkoDudeIdle");
+
+    }
+    public void Shoot()
+    {
+        Vector3 rayDir = player.position - this.transform.position;
+        // Debug.DrawRay(this.transform.position, rayDir * hitDistance);
+
+        //  Vector3 rayDir = playerTransform.position - this.transform.position;
+        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, rayDir, hitDistance, ~IgnoreMe);
+        if (hit)
+        {
+            //Debug.Log("hit "+ hit.collider.gameObject.name);
+            if (hit.collider.gameObject.tag.Equals("Player"))
+            {
+                ShootBehaviour();
+                //  Debug.Log("hit plaay");
+            }
+
+        }
+    }
+    private void ShootBehaviour()
+    {
+        sounds.PlayGunClip();
+        playerMove.PlayerGotShot(this.transform.position);
+        rotateTowardsPlayer = false;
+        Invoke("StartRotateTowardsPlayer", stillTimeAfterShot);
+
+    }
+    private void StartRotateTowardsPlayer()
+    {
+        rotateTowardsPlayer = true;
+
+        Invoke("StartShooting", fireRate);
+    }
+    //private void ShootingAgain()
+    //{
+
+    //    //yield return new WaitForSeconds(fireRate);
+    //    anim.Play("haulikkoDudeShoot");
+    //}
+    public void PlayerIsDead()
+    {
+        playerDead = true;
+        StopAllCoroutines();
+
+        if (!dead)
+        {
+            anim.Play("haulikkoDudeIdle");
+            Invoke("StartWalkingAway", 0.8f);
+        }
+    }
+    private void StartWalkingAway()
+    {
+        walkAway = true;
+        anim.Play("haulikkoDudeWalk");
 
     }
 }

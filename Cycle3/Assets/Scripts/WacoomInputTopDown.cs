@@ -27,13 +27,14 @@ public class WacoomInputTopDown : MonoBehaviour
     private Vector2 curPenPos;
     private bool bt1Press = false;
     private bool drawing = false;
-    private float screenHeight;
-    private float screenWidth;
+    //private float screenHeight;
+    //private float screenWidth;
     private bool inRange = false;
     private Camera cam;
     //[SerializeField]
     //private GameObject bulletPrefab;
-
+    [SerializeField]
+    private GameObject cowBloodPrefab;
     private bool easeToPos;
     private Vector2 lastPosOutPlayerRange;
     private float timeFromLastTip = 0f;
@@ -57,6 +58,9 @@ public class WacoomInputTopDown : MonoBehaviour
     [SerializeField]
     private GameObject bloodGO;
     private Pen curPen;
+    [SerializeField]
+    private GameObject bloodParticles;
+    private ParticleCollision particleCol;
     public bool Dead { get => dead; set => dead = value; }
 
     public delegate void OnAttackStateChange(bool state);
@@ -86,13 +90,17 @@ public class WacoomInputTopDown : MonoBehaviour
     {
         // Cursor.visible = false;
         rb = GetComponent<Rigidbody2D>();
-        screenHeight = (Screen.height);
-        screenWidth = (Screen.width);
+        //screenHeight = (Screen.height);
+        //screenWidth = (Screen.width);
         cam = Camera.main;
         anim = GetComponent<Animator>();
         dashTrail = GetComponent<DashTrail>();
         rend = GetComponent<SpriteRenderer>();
         sounds = GetComponent<CharacterSounds>();
+        if(bloodParticles)
+        {
+            particleCol = bloodParticles.GetComponent<ParticleCollision>();
+        }
        // sounds.PlayNoticedClip();
     }
     public void Eraser()
@@ -281,10 +289,7 @@ public class WacoomInputTopDown : MonoBehaviour
         {
            
 
-            if (drawing)
-            {
-
-            }
+          
             if (inRange && !drawing && !attacking)
             {
 
@@ -319,15 +324,9 @@ public class WacoomInputTopDown : MonoBehaviour
     {
         if(!Dead && !attacking)
         {
-            sounds.PlayDeathClip();
-            rend.sortingOrder = 0;
-            Vector2 dirImpact = this.transform.position - enemyPos;
-            rb.AddForce(dirImpact.normalized * dyingForce, ForceMode2D.Impulse);
-            Dead = true;
-            anim.SetBool("Dead", true);
-            GameManager.Instance.PlayerDead();
-            bloodGO.SetActive(true);
-            bloodGO.transform.rotation = this.transform.rotation;
+            DoDeadThings(enemyPos);
+            //bloodGO.SetActive(true);
+            //bloodGO.transform.rotation = this.transform.rotation;
         }
        
 
@@ -335,6 +334,45 @@ public class WacoomInputTopDown : MonoBehaviour
     public void Muuu()
     {
         sounds.PlayNoticedClip();
+    }
+    private void DoDeadThings(Vector3 enemyPos)
+    {
+        sounds.PlayDeathClip();
+        rend.sortingOrder = 2;
+        Vector2 dirImpact = this.transform.position - enemyPos;
+        rb.AddForce(dirImpact.normalized * dyingForce, ForceMode2D.Impulse);
+        Dead = true;
+        anim.SetBool("Dead", true);
+        GameManager.Instance.PlayerDead();
+        Invoke("InstantiateBlood", 0.2f);
+    }
+    public void PlayerGotShot(Vector3 enemyPos)
+    {
+        if (!Dead && !attacking)
+        {
+            //sounds.PlayDeathClip();
+            //rend.sortingOrder =2;
+            //Vector2 dirImpact = this.transform.position - enemyPos;
+            //rb.AddForce(dirImpact.normalized * dyingForce*2, ForceMode2D.Impulse);
+            //Dead = true;
+            //anim.SetBool("Dead", true);
+            //GameManager.Instance.PlayerDead();
+            //bloodGO.SetActive(true);
+            //bloodGO.transform.rotation = this.transform.rotation;
+            DoDeadThings(enemyPos);
+            Vector2 dirImpact = this.transform.position - enemyPos;
+            float angle = Mathf.Atan2(dirImpact.y, dirImpact.x) * Mathf.Rad2Deg;
+            particleCol.ParticlesOn();
+            bloodParticles.transform.eulerAngles = new Vector3(0, 0, angle);
+            bloodParticles.GetComponent<Animator>().SetTrigger("Start");
+            bloodParticles.GetComponent<ParticleSystem>().Play();
+        }
+    }
+    private void InstantiateBlood()
+    {
+        bloodGO.SetActive(true);
+        bloodGO.transform.rotation = this.transform.rotation;
+       // GameObject bloodGO = Instantiate(cowBloodPrefab, this.transform.position, this.transform.rotation);
     }
     //private void Shoot()
     //{
