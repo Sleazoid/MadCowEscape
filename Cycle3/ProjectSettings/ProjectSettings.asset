@@ -14,8 +14,8 @@ PlayerSettings:
   accelerometerFrequency: 60
   companyName: DefaultCompany
   productName: MadCowEscape
-  defaultCursor: {fileID: 2800000, guid: aba615745b46f1d4a9290e78df6218fe, type: 3}
-  cursorHotspot: {x: 755, y: 755}
+  defaultCursor: {fileID: 2800000, guid: d8f653e656c29e94f957b5b8791553b4, type: 3}
+  cursorHotspot: {x: 32, y: 32}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1
