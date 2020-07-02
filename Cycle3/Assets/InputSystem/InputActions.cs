@@ -97,6 +97,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""NextLevel"",
+                    ""type"": ""Button"",
+                    ""id"": ""94fe0218-4e8f-4b8d-a311-6552197eeb5c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -209,6 +217,17 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""action"": ""Retry"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c40bc34a-7d01-492c-a409-51b6f97aa7c3"",
+                    ""path"": ""<Keyboard>/#(P)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NextLevel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -227,6 +246,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Wacom_eraser = m_Wacom.FindAction("eraser", throwIfNotFound: true);
         m_Wacom_Quit = m_Wacom.FindAction("Quit", throwIfNotFound: true);
         m_Wacom_Retry = m_Wacom.FindAction("Retry", throwIfNotFound: true);
+        m_Wacom_NextLevel = m_Wacom.FindAction("NextLevel", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -286,6 +306,7 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Wacom_eraser;
     private readonly InputAction m_Wacom_Quit;
     private readonly InputAction m_Wacom_Retry;
+    private readonly InputAction m_Wacom_NextLevel;
     public struct WacomActions
     {
         private @InputActions m_Wrapper;
@@ -300,6 +321,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         public InputAction @eraser => m_Wrapper.m_Wacom_eraser;
         public InputAction @Quit => m_Wrapper.m_Wacom_Quit;
         public InputAction @Retry => m_Wrapper.m_Wacom_Retry;
+        public InputAction @NextLevel => m_Wrapper.m_Wacom_NextLevel;
         public InputActionMap Get() { return m_Wrapper.m_Wacom; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -339,6 +361,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Retry.started -= m_Wrapper.m_WacomActionsCallbackInterface.OnRetry;
                 @Retry.performed -= m_Wrapper.m_WacomActionsCallbackInterface.OnRetry;
                 @Retry.canceled -= m_Wrapper.m_WacomActionsCallbackInterface.OnRetry;
+                @NextLevel.started -= m_Wrapper.m_WacomActionsCallbackInterface.OnNextLevel;
+                @NextLevel.performed -= m_Wrapper.m_WacomActionsCallbackInterface.OnNextLevel;
+                @NextLevel.canceled -= m_Wrapper.m_WacomActionsCallbackInterface.OnNextLevel;
             }
             m_Wrapper.m_WacomActionsCallbackInterface = instance;
             if (instance != null)
@@ -373,6 +398,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Retry.started += instance.OnRetry;
                 @Retry.performed += instance.OnRetry;
                 @Retry.canceled += instance.OnRetry;
+                @NextLevel.started += instance.OnNextLevel;
+                @NextLevel.performed += instance.OnNextLevel;
+                @NextLevel.canceled += instance.OnNextLevel;
             }
         }
     }
@@ -389,5 +417,6 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnEraser(InputAction.CallbackContext context);
         void OnQuit(InputAction.CallbackContext context);
         void OnRetry(InputAction.CallbackContext context);
+        void OnNextLevel(InputAction.CallbackContext context);
     }
 }

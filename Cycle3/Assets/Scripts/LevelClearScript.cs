@@ -7,13 +7,14 @@ public class LevelClearScript : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI clearedText;
     private int currentLevel = 0;
-
+    [SerializeField]
+    private GameObject levelClearVolumeGO;
     public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
 
     // Start is called before the first frame update
     private void OnEnable()
     {
-       
+
 
         //if(currentLevel)
 
@@ -26,6 +27,15 @@ public class LevelClearScript : MonoBehaviour
     public void SetLevelText(int curLevel)
     {
         currentLevel = curLevel;
-        clearedText.text = "Level " + currentLevel.ToString() + " clear!"; 
+        clearedText.text = "Level " + currentLevel.ToString() + " clear!";
     }
+    public void EnableVolume()
+    {
+        levelClearVolumeGO.SetActive(true);
+    }
+    public void DisableVolume()
+    {
+        levelClearVolumeGO.SetActive(false);
+    }
+
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Playables;
 using Cinemachine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -55,6 +56,7 @@ public class GameManager : MonoBehaviour
         inputActions = new InputActions();
         inputActions.Wacom.Quit.performed += ctx => QuitGame();
         inputActions.Wacom.Retry.performed += ctx => Retry();
+        inputActions.Wacom.NextLevel.performed += ctx => NextLevelCheat();
     }
  
     private void OnEnable()
@@ -110,7 +112,11 @@ public class GameManager : MonoBehaviour
                 mainAudio.enabled = true;
             }
         }
-
+        levelClearScript.DisableVolume();
+    }
+    private void NextLevelCheat()
+    {
+        LoadNewLevel(true);
     }
     private void ImpulseNoise()
     {
@@ -150,6 +156,7 @@ public class GameManager : MonoBehaviour
         mainAudio.enabled = false;
         wacoomInputs.enabled = false;
         LevelClearedPanelGO.SetActive(true);
+        levelClearScript.EnableVolume();
         levelClearTimeline.Play();
         for (int i = 0; i < GameOverDisableLists.Count; i++)
         {
@@ -199,8 +206,8 @@ public class GameManager : MonoBehaviour
         {
             Scene thisScene = SceneManager.GetActiveScene();
             int nextScene = thisScene.buildIndex + 1;
-            Debug.Log(nextScene);
-            Debug.Log(SceneManager.sceneCount);
+            //Debug.Log(nextScene);
+            //Debug.Log(SceneManager.sceneCount);
             if (SceneManager.sceneCountInBuildSettings<=nextScene)
             {
                 nextScene = 0;
@@ -220,5 +227,10 @@ public class GameManager : MonoBehaviour
         {
             goalScript.OpenTheGoal();
         }
+    }
+
+    public void SetDamageToPlayer(Vector3 pos)
+    {
+        wacoomInputs.PlayerGotShot(pos);
     }
 }
