@@ -39,6 +39,8 @@ public class EnemyGrenadeMove : MonoBehaviour
     private bool playerDead = false;
     private SpriteRenderer rend;
     [SerializeField]
+    private Transform grenadeSpawnPos;
+    [SerializeField]
     private float stillTimeAfterShot = 1f;
     public bool HuntPlayer { get => huntPlayer; set => huntPlayer = value; }
     public bool WalkAway { get => walkAway; set => walkAway = value; }
