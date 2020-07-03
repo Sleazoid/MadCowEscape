@@ -28,7 +28,7 @@ public class EnemyGrenadeMove : MonoBehaviour
     [SerializeField]
     private GameObject bloodParticles;
     private ParticleCollision particleCol;
-    private EnemyShotgunNoticeAreaScript noticeArea;
+    private EnemyGranadeNoticeAreaScript noticeArea;
     private CharacterSounds sounds;
     private bool huntPlayer = false;
     private bool rotateTowardsPlayer = true;
@@ -40,10 +40,12 @@ public class EnemyGrenadeMove : MonoBehaviour
     private SpriteRenderer rend;
     [SerializeField]
     private Transform grenadeSpawnPos;
+    private Vector3 throwToPos;
     [SerializeField]
     private float stillTimeAfterShot = 1f;
     public bool HuntPlayer { get => huntPlayer; set => huntPlayer = value; }
     public bool WalkAway { get => walkAway; set => walkAway = value; }
+    public float HitDistance { get => hitDistance; set => hitDistance = value; }
 
     // Start is called before the first frame update
     void Start()
@@ -56,7 +58,7 @@ public class EnemyGrenadeMove : MonoBehaviour
         triggerCol = GetComponent<CapsuleCollider2D>();
         anim = GetComponent<Animator>();
         particleCol = bloodParticles.GetComponent<ParticleCollision>();
-        noticeArea = transform.GetComponentInChildren<EnemyShotgunNoticeAreaScript>();
+        noticeArea = transform.GetComponentInChildren<EnemyGranadeNoticeAreaScript>();
         rend = GetComponent<SpriteRenderer>();
     }
     private void OnEnable()
@@ -71,7 +73,7 @@ public class EnemyGrenadeMove : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawRay(this.transform.position, transform.right * hitDistance);
+        Gizmos.DrawRay(this.transform.position, transform.right * HitDistance);
     }
     private void OnDestroy()
     {
@@ -101,7 +103,7 @@ public class EnemyGrenadeMove : MonoBehaviour
     {
         if (!dead && HuntPlayer && rotateTowardsPlayer && !playerMove.Dead)
         {
-            Vector2 dirNormalized = (player.position - this.transform.position).normalized;
+            Vector2 dirNormalized = (this.transform.position- player.position).normalized;
             float angle = Mathf.Atan2(dirNormalized.y, dirNormalized.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
@@ -123,23 +125,20 @@ public class EnemyGrenadeMove : MonoBehaviour
             //    //anim.SetBool("Hitting", true);
             //    //anim.Play("haulikkoDudeShoot");
             //}
+            anim.SetFloat("Speed", rb.velocity.sqrMagnitude);
         }
         if (playerMove.Dead && walkAway && !dead)
         {
             Vector2 dirNormalized = (this.transform.position - player.position).normalized;
             rb.MovePosition(rb.position + dirNormalized * moveSpeed * Time.fixedDeltaTime);
             moveSpeed = 0.5f;
-            float angle = Mathf.Atan2(dirNormalized.y, dirNormalized.x) * Mathf.Rad2Deg;
+            float angle = Mathf.Atan2(dirNormalized.y * -1, dirNormalized.x * -1) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
 
     }
 
-    public void TryHitPlayer()
-    {
-        playerMove.GetDamage(this.transform.position);
-        anim.SetBool("Hitting", false);
-    }
+  
     private void EnemyIsDead(bool value)
     {
         if (isOnPlayerRange && !dead)
@@ -147,7 +146,7 @@ public class EnemyGrenadeMove : MonoBehaviour
             CancelInvoke();
             playerMove.EnableDash();
             GameManager.Instance.CollisionImpulseEffect();
-            anim.Play("haulikkoDudeDead");
+            anim.Play("Death");
             noticeArea.gameObject.SetActive(false);
             sounds.PlayDeathClip();
             //  int randomZRot = Random.Range(0, 360);
@@ -197,8 +196,9 @@ public class EnemyGrenadeMove : MonoBehaviour
     {
         if (!playerDead)
         {
-            anim.Play("haulikkoDudeAim");
-            sounds.PlayAttackClip();
+            //anim.Play("fatGuyThrowAnim"); 
+          
+          
             // InvokeRepeating("ShootInvoke", fireRate, fireRate);
             // StartCoroutine("ShootingTiming");
             Invoke("ShootingTiming", fireRate);
@@ -207,32 +207,42 @@ public class EnemyGrenadeMove : MonoBehaviour
     }
     private void ShootingTiming()
     {
+        sounds.PlayAttackClip();
+        anim.SetBool("Throw", true);
         //while (1 == 1)
         //{
-
-        Shoot();
+     
+        //Shoot();
 
         //    yield return null;
         //}
 
     }
-    private void ShootInvoke()
-    {
-        anim.Play("haulikkoDudeShoot");
-    }
+
+    //private void ShootInvoke()
+    //{
+    //    anim.Play("haulikkoDudeShoot");
+    //}
     public void StopShooting()
     {
         StopAllCoroutines();
-        anim.Play("haulikkoDudeIdle");
+        
+        //anim.Play("haulikkoDudeIdle");
 
     }
     public void Shoot()
     {
+
+        anim.SetBool("Throw", false);
+        GameObject grenade = Instantiate(bulletPrefab, grenadeSpawnPos.position, this.transform.rotation);
         Vector3 rayDir = player.position - this.transform.position;
+       // grenade.GetComponent<Rigidbody2D>().AddForce(rayDir.normalized * 1f, ForceMode2D.Impulse);
+
+       // Vector3 rayDir = player.position - this.transform.position;
         // Debug.DrawRay(this.transform.position, rayDir * hitDistance);
 
         //  Vector3 rayDir = playerTransform.position - this.transform.position;
-        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, rayDir, hitDistance, ~IgnoreMe);
+        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, rayDir, HitDistance, ~IgnoreMe);
         if (hit)
         {
             //Debug.Log("hit "+ hit.collider.gameObject.name);
@@ -246,9 +256,9 @@ public class EnemyGrenadeMove : MonoBehaviour
     }
     private void ShootBehaviour()
     {
-        sounds.PlayGunClip();
-        playerMove.PlayerGotShot(this.transform.position);
-        rotateTowardsPlayer = false;
+       // sounds.PlayGunClip();
+        //playerMove.PlayerGotShot(this.transform.position);
+        //rotateTowardsPlayer = false;
         Invoke("StartRotateTowardsPlayer", stillTimeAfterShot);
 
     }
@@ -271,14 +281,14 @@ public class EnemyGrenadeMove : MonoBehaviour
 
         if (!dead)
         {
-            anim.Play("haulikkoDudeIdle");
+            anim.Play("fatGuyIdle");
             Invoke("StartWalkingAway", 0.8f);
         }
     }
     private void StartWalkingAway()
     {
         walkAway = true;
-        anim.Play("haulikkoDudeWalk");
+        anim.Play("fatGuyWalk");
 
     }
 }

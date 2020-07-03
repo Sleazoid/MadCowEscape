@@ -7,18 +7,18 @@ using UnityEngine;
 public class EnemyGranadeNoticeAreaScript : MonoBehaviour
 {
     private bool playerWasOnArea = false;
-    private EnemyShotgunMove enemyMove;
+    private EnemyGrenadeMove enemyMove;
     private Transform playerTransform;
     public LayerMask IgnoreMe;
     private Animator anim;
     private CharacterSounds sounds;
-    [SerializeField]
     private float noticeDistance = 6f;
     // Start is called before the first frame update
     void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        enemyMove = this.gameObject.transform.parent.GetComponent<EnemyShotgunMove>();
+        enemyMove = this.gameObject.transform.parent.GetComponent<EnemyGrenadeMove>();
+        noticeDistance = enemyMove.HitDistance;
         anim = enemyMove.gameObject.GetComponent<Animator>();
         sounds = enemyMove.gameObject.GetComponent<CharacterSounds>();
        
@@ -55,7 +55,7 @@ public class EnemyGranadeNoticeAreaScript : MonoBehaviour
             }
             else
             {
-                //enemyMove.StopShooting();
+                enemyMove.StopShooting();
                 enemyMove.HuntPlayer = false;
             }
         }

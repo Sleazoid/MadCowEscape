@@ -38,9 +38,12 @@ public class GameManager : MonoBehaviour
     private GoalScript goalScript;
     private EnemyShotgunMove[] shotGunEnemyScripts;
     private EnemyMove[] basicEnemyScripts;
+    private EnemyGrenadeMove[] grenadeEnemyScripts;
+    private GameObject playerObject;
     public static GameManager Instance { get => instance; }
     public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
     public GoalScript GoalScript { get => goalScript; set => goalScript = value; }
+    public GameObject PlayerObject { get => playerObject; set => playerObject = value; }
 
     private void Awake()
     {
@@ -98,6 +101,8 @@ public class GameManager : MonoBehaviour
             diedEnemiesCount = 0;
             shotGunEnemyScripts = FindObjectsOfType<EnemyShotgunMove>();
             basicEnemyScripts = FindObjectsOfType<EnemyMove>();
+            grenadeEnemyScripts = FindObjectsOfType<EnemyGrenadeMove>();
+            PlayerObject = GameObject.FindGameObjectWithTag("Player");
         }
         else
         {
@@ -196,6 +201,10 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < basicEnemyScripts.Length; i++)
         {
             basicEnemyScripts[i].PlayerIsDead();
+        }
+        for (int i = 0; i < grenadeEnemyScripts.Length; i++)
+        {
+            grenadeEnemyScripts[i].PlayerIsDead();
         }
         LevelFailed();
     }
