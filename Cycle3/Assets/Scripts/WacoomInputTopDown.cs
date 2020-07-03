@@ -61,6 +61,7 @@ public class WacoomInputTopDown : MonoBehaviour
     [SerializeField]
     private GameObject bloodParticles;
     private ParticleCollision particleCol;
+    Vector2 leftStickValue;
     public bool Dead { get => dead; set => dead = value; }
 
     public delegate void OnAttackStateChange(bool state);
@@ -84,6 +85,11 @@ public class WacoomInputTopDown : MonoBehaviour
         curPen = Pen.current;
         // inputActions.Wacom.Press.performed += ctx =>  valuePress = ctx.ReadValue<Vector2>();
 
+        //Gamepad
+        inputActions.Gamepad.Dash.performed += ctx => Attack();
+        //leftStickValue = inputActions.Gamepad.LeftStick.ReadValue<Vector2>();
+        inputActions.Gamepad.LeftStick.performed += ctx => leftStickValue = ctx.ReadValue<Vector2>();
+        inputActions.Gamepad.LeftStick.canceled += ctx => leftStickValue = new Vector2(0,0);
     }
     // Start is called before the first frame update
     void Start()
@@ -102,6 +108,10 @@ public class WacoomInputTopDown : MonoBehaviour
             particleCol = bloodParticles.GetComponent<ParticleCollision>();
         }
        // sounds.PlayNoticedClip();
+    }
+    private void LeftStickControlCancelled()
+    {
+
     }
     public void Eraser()
     {
@@ -239,6 +249,7 @@ public class WacoomInputTopDown : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("leftStickValue " + leftStickValue);
         if (!Dead)
         {
             timeFromLastTip += Time.deltaTime;

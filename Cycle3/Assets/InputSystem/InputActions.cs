@@ -230,6 +230,52 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Gamepad"",
+            ""id"": ""d8a92bce-9542-45dd-ba6c-4376cda55185"",
+            ""actions"": [
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""a4867b5f-2616-4a44-b03b-7ec7bbc790f0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""LeftStick"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""14228b24-b347-4e5d-8167-72c2284767b4"",
+                    ""expectedControlType"": ""Stick"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""db08d1c0-ecda-4fe4-9af6-b5bd71364576"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0d86494b-3b82-4a7d-a1c8-c42b1410ab92"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftStick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -247,6 +293,10 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Wacom_Quit = m_Wacom.FindAction("Quit", throwIfNotFound: true);
         m_Wacom_Retry = m_Wacom.FindAction("Retry", throwIfNotFound: true);
         m_Wacom_NextLevel = m_Wacom.FindAction("NextLevel", throwIfNotFound: true);
+        // Gamepad
+        m_Gamepad = asset.FindActionMap("Gamepad", throwIfNotFound: true);
+        m_Gamepad_Dash = m_Gamepad.FindAction("Dash", throwIfNotFound: true);
+        m_Gamepad_LeftStick = m_Gamepad.FindAction("LeftStick", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -405,6 +455,47 @@ public class @InputActions : IInputActionCollection, IDisposable
         }
     }
     public WacomActions @Wacom => new WacomActions(this);
+
+    // Gamepad
+    private readonly InputActionMap m_Gamepad;
+    private IGamepadActions m_GamepadActionsCallbackInterface;
+    private readonly InputAction m_Gamepad_Dash;
+    private readonly InputAction m_Gamepad_LeftStick;
+    public struct GamepadActions
+    {
+        private @InputActions m_Wrapper;
+        public GamepadActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Dash => m_Wrapper.m_Gamepad_Dash;
+        public InputAction @LeftStick => m_Wrapper.m_Gamepad_LeftStick;
+        public InputActionMap Get() { return m_Wrapper.m_Gamepad; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(GamepadActions set) { return set.Get(); }
+        public void SetCallbacks(IGamepadActions instance)
+        {
+            if (m_Wrapper.m_GamepadActionsCallbackInterface != null)
+            {
+                @Dash.started -= m_Wrapper.m_GamepadActionsCallbackInterface.OnDash;
+                @Dash.performed -= m_Wrapper.m_GamepadActionsCallbackInterface.OnDash;
+                @Dash.canceled -= m_Wrapper.m_GamepadActionsCallbackInterface.OnDash;
+                @LeftStick.started -= m_Wrapper.m_GamepadActionsCallbackInterface.OnLeftStick;
+                @LeftStick.performed -= m_Wrapper.m_GamepadActionsCallbackInterface.OnLeftStick;
+                @LeftStick.canceled -= m_Wrapper.m_GamepadActionsCallbackInterface.OnLeftStick;
+            }
+            m_Wrapper.m_GamepadActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Dash.started += instance.OnDash;
+                @Dash.performed += instance.OnDash;
+                @Dash.canceled += instance.OnDash;
+                @LeftStick.started += instance.OnLeftStick;
+                @LeftStick.performed += instance.OnLeftStick;
+                @LeftStick.canceled += instance.OnLeftStick;
+            }
+        }
+    }
+    public GamepadActions @Gamepad => new GamepadActions(this);
     public interface IWacomActions
     {
         void OnPress(InputAction.CallbackContext context);
@@ -418,5 +509,10 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnQuit(InputAction.CallbackContext context);
         void OnRetry(InputAction.CallbackContext context);
         void OnNextLevel(InputAction.CallbackContext context);
+    }
+    public interface IGamepadActions
+    {
+        void OnDash(InputAction.CallbackContext context);
+        void OnLeftStick(InputAction.CallbackContext context);
     }
 }

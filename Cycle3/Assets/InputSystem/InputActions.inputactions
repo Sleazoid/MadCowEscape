@@ -217,6 +217,52 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Gamepad",
+            "id": "d8a92bce-9542-45dd-ba6c-4376cda55185",
+            "actions": [
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "a4867b5f-2616-4a44-b03b-7ec7bbc790f0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "LeftStick",
+                    "type": "PassThrough",
+                    "id": "14228b24-b347-4e5d-8167-72c2284767b4",
+                    "expectedControlType": "Stick",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "db08d1c0-ecda-4fe4-9af6-b5bd71364576",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0d86494b-3b82-4a7d-a1c8-c42b1410ab92",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftStick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
