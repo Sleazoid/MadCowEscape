@@ -4,6 +4,7 @@ using System.Drawing;
 
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 
 public class WacoomInputTopDown : MonoBehaviour
 {
@@ -62,6 +63,11 @@ public class WacoomInputTopDown : MonoBehaviour
     private GameObject bloodParticles;
     private ParticleCollision particleCol;
     Vector2 leftStickValue;
+    [SerializeField]
+    private float gPadRotationSpeed;
+    [SerializeField]
+    private bool UseGamepad = true;
+    private Mouse vMouse;
     public bool Dead { get => dead; set => dead = value; }
 
     public delegate void OnAttackStateChange(bool state);
@@ -89,7 +95,10 @@ public class WacoomInputTopDown : MonoBehaviour
         inputActions.Gamepad.Dash.performed += ctx => Attack();
         //leftStickValue = inputActions.Gamepad.LeftStick.ReadValue<Vector2>();
         inputActions.Gamepad.LeftStick.performed += ctx => leftStickValue = ctx.ReadValue<Vector2>();
-        inputActions.Gamepad.LeftStick.canceled += ctx => leftStickValue = new Vector2(0,0);
+        //inputActions.Gamepad.LeftStick.performed += ctx => InRange(); 
+        // inputActions.Gamepad.LeftStick.canceled += ctx => leftStickValue = new Vector2(0,0);
+        //  inputActions.Gamepad.LeftStick.canceled += ctx => InRangeCancelled();
+        vMouse = InputSystem.AddDevice<Mouse>();
     }
     // Start is called before the first frame update
     void Start()
@@ -103,11 +112,16 @@ public class WacoomInputTopDown : MonoBehaviour
         dashTrail = GetComponent<DashTrail>();
         rend = GetComponent<SpriteRenderer>();
         sounds = GetComponent<CharacterSounds>();
-        if(bloodParticles)
+        if (bloodParticles)
         {
             particleCol = bloodParticles.GetComponent<ParticleCollision>();
         }
-       // sounds.PlayNoticedClip();
+        if(UseGamepad)
+        {
+            rb.drag = 8f;
+            moveSpeed += 0.21f;
+        }
+        // sounds.PlayNoticedClip();
     }
     private void LeftStickControlCancelled()
     {
@@ -145,12 +159,12 @@ public class WacoomInputTopDown : MonoBehaviour
     public void InRange()
     {
         inRange = true;
-      //  Debug.Log("WuuT");
+        //  Debug.Log("WuuT");
 
     }
     public void InRangeCancelled()
     {
-      //  Debug.Log("Not In RAnge");
+        Debug.Log("Not In RAnge");
         inRange = false;
         anim.SetFloat("Speed", 0);
     }
@@ -177,14 +191,14 @@ public class WacoomInputTopDown : MonoBehaviour
             attacking = true;
             rb.AddForce(transform.right * rollForce, ForceMode2D.Impulse);
             dashTrail.InvokeRepeating("SpawnTrailPart", 0, 0.05f);
-            InvokeRepeating("AttackRepeating",0.05f, 0.05f);
+            InvokeRepeating("AttackRepeating", 0.05f, 0.05f);
             Invoke("RollIsOver", dashAttackTime);
             sounds.PlayAttackClip();
             dashEnabled = false;
             Invoke("EnableDash", dashDisabledTime);
         }
     }
-   public void EnableDash()
+    public void EnableDash()
     {
         dashEnabled = true;
     }
@@ -213,7 +227,7 @@ public class WacoomInputTopDown : MonoBehaviour
     {
         if (!Dead)
         {
-          
+
             // drawing = true;
             // Debug.Log("Press Started");
             drawing = true;
@@ -249,97 +263,133 @@ public class WacoomInputTopDown : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("leftStickValue " + leftStickValue);
-        if (!Dead)
+        //Debug.Log("leftStickValue " + leftStickValue);
+
+        //    var mouseDelta = leftStickValue * 2f;
+        //    var currentPosition = vMouse.position.ReadValue();
+        //    InputSystem.QueueStateEvent(vMouse,
+        //        new MouseState
+        //        {
+        //            position = currentPosition + mouseDelta,
+        //            delta = mouseDelta,
+        //    // Set other stuff like button states...
+        //});
+
+        if (!UseGamepad)
         {
-            timeFromLastTip += Time.deltaTime;
-            curPenPos = curPen.position.ReadValue();
-            penPosWorld = cam.ScreenToWorldPoint(curPenPos);
-            penDir = (penPosWorld - this.transform.position);
-            if (!attacking)
+            if (!Dead)
             {
-                float angle = Mathf.Atan2(penDir.y, penDir.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                timeFromLastTip += Time.deltaTime;
+                curPenPos = curPen.position.ReadValue();
+                penPosWorld = cam.ScreenToWorldPoint(curPenPos);
+                penDir = (penPosWorld - this.transform.position);
+                if (!attacking)
+                {
+                    float angle = Mathf.Atan2(penDir.y, penDir.x) * Mathf.Rad2Deg;
+                    transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                }
+                if (!drawing && inRange)
+                {
+                    anim.SetFloat("Speed", penDir.sqrMagnitude);
+                }
             }
-
-            // Debug.Log(penDir);
-            if (!drawing && inRange)
-            {
-                anim.SetFloat("Speed", penDir.sqrMagnitude);
-            }
-
-            //if (bt1Press)
-            //{
-            //    //   rb.AddForce(this.transform.up * swipeForce);
-            //}
-            //Debug.Log(Pen.current.device.displayName);
-            //Debug.Log(Pen.current.position.ReadValue());
-            //Debug.Log(Pen.current.tilt.ReadValue());
-
-            //if (curPenPos.x > maxX)
-            //{
-            //    maxX = curPenPos.x;
-            //}
-            //if (curPenPos.x < minX)
-            //{
-            //    minX = curPenPos.x;
-            //}
-            //if (curPenPos.y > MaxY)
-            //{
-            //    MaxY = curPenPos.y;
-            //}
-            //if (curPenPos.y < minY)
-            //{
-            //    minY = curPenPos.y;
-            //}
         }
+        else
+        {
+            if (!Dead)
+            {
+                //timeFromLastTip += Time.deltaTime;
+                //curPenPos = curPen.position.ReadValue();
+                //penPosWorld = cam.ScreenToWorldPoint(curPenPos);
+                //penDir = (penPosWorld - this.transform.position);
+                //if (rb.velocity.normalized > 0.1f)
+                //    anim.SetFloat("Speed", rb.velocity.magnitude);
+                //else
+                //    anim.SetFloat("Speed", 0f);
+                anim.SetFloat("Speed", leftStickValue.sqrMagnitude);
+                if (!attacking && leftStickValue.sqrMagnitude > 0)
+                {
+                    //float rotationY = leftStickValue.y * gPadRotationSpeed;
+                    //float rotationX = leftStickValue.x * gPadRotationSpeed;
+
+                    //transform.Rotate(Vector3.forward * rotationX);
+
+                    //Quaternion desRot = Quaternion.LookRotation(Vector2.right, leftStickValue);
+                    //transform.rotation = Quaternion.RotateTowards(this.transform.rotation, desRot, gPadRotationSpeed * Time.deltaTime);
+                    transform.RotateAround(this.transform.position, leftStickValue, gPadRotationSpeed * Time.deltaTime);
+                    float angle = Mathf.Atan2(leftStickValue.y, leftStickValue.x) * Mathf.Rad2Deg;
+                    Quaternion eulerRot = Quaternion.Euler(0.0f, 0.0f, angle);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, eulerRot, Time.deltaTime * gPadRotationSpeed);
+
+                    //float angle = Mathf.Atan2(leftStickValue.y, leftStickValue.x) * Mathf.Rad2Deg;
+                    //transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+                  
+                }
+                //else
+                //{
+                //    rb.velocity = new Vector2(0, 0);
+                //}
+                // if (leftStickValue.sqrMagnitude>0)
+                //{
+
+                // }
+            }
+        }
+
     }
     private void FixedUpdate()
     {
-        if (!Dead)
+        if (!UseGamepad)
         {
-           
-
-          
-            if (inRange && !drawing && !attacking)
+            if (!Dead)
             {
-
-                if (Vector2.Distance(penPosWorld, this.transform.position) > 0.3f)
+                if (inRange && !drawing && !attacking)
                 {
-                    // Debug.Log(wPos);
 
-                    //Vector2 dirNormalized = penDir.normalized;
-                    //rb.MovePosition(rb.position + dirNormalized * moveSpeed * Time.fixedDeltaTime);
-                    Vector2 dirForward = transform.right;
-                    //rb.MovePosition(rb.position + dirForward * moveSpeed * Time.fixedDeltaTime);
-                    rb.velocity = dirForward * moveSpeed;//, rb.velocity.y);
-                    easeToPos = false;
-                    lastPosOutPlayerRange = penPosWorld;
+                    if (Vector2.Distance(penPosWorld, this.transform.position) > 0.3f)
+                    {
+                        // Debug.Log(wPos);
+
+                        //Vector2 dirNormalized = penDir.normalized;
+                        //rb.MovePosition(rb.position + dirNormalized * moveSpeed * Time.fixedDeltaTime);
+                        Vector2 dirForward = transform.right;
+                        //rb.MovePosition(rb.position + dirForward * moveSpeed * Time.fixedDeltaTime);
+                        rb.velocity = dirForward * moveSpeed;//, rb.velocity.y);
+                        easeToPos = false;
+                        lastPosOutPlayerRange = penPosWorld;
+                    }
+                    else
+                    {
+                        easeToPos = true;
+                    }
                 }
-                else
+                if (easeToPos && !attacking) // 
                 {
-                    easeToPos = true;
+                    rb.position = Vector2.MoveTowards(transform.position, lastPosOutPlayerRange, moveSpeed * Time.fixedDeltaTime);
                 }
-            }
-            if (easeToPos && !attacking) // 
-            {
-                rb.position = Vector2.MoveTowards(transform.position, lastPosOutPlayerRange, moveSpeed * Time.fixedDeltaTime);
             }
         }
-
+        else
+        {
+            if (!Dead && leftStickValue.sqrMagnitude > 0 && !attacking)
+            {
+                Vector2 dirForward = transform.right;
+                rb.velocity = dirForward * moveSpeed;//, rb.velocity.y);
+            }
+        }
 
 
     }
 
     public void GetDamage(Vector3 enemyPos)
     {
-        if(!Dead && !attacking)
+        if (!Dead && !attacking)
         {
             DoDeadThings(enemyPos);
             //bloodGO.SetActive(true);
             //bloodGO.transform.rotation = this.transform.rotation;
         }
-       
+
 
     }
     public void Muuu()
@@ -383,7 +433,7 @@ public class WacoomInputTopDown : MonoBehaviour
     {
         bloodGO.SetActive(true);
         bloodGO.transform.rotation = this.transform.rotation;
-       // GameObject bloodGO = Instantiate(cowBloodPrefab, this.transform.position, this.transform.rotation);
+        // GameObject bloodGO = Instantiate(cowBloodPrefab, this.transform.position, this.transform.rotation);
     }
     //private void Shoot()
     //{

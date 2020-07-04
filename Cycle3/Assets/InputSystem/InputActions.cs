@@ -250,6 +250,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Stick"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""X"",
+                    ""type"": ""Button"",
+                    ""id"": ""146501d0-4b75-4720-8067-78e9651aed05"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -272,6 +280,17 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""LeftStick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0143c8c8-aaf1-438b-9bb6-b0b25459630a"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""X"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -297,6 +316,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Gamepad = asset.FindActionMap("Gamepad", throwIfNotFound: true);
         m_Gamepad_Dash = m_Gamepad.FindAction("Dash", throwIfNotFound: true);
         m_Gamepad_LeftStick = m_Gamepad.FindAction("LeftStick", throwIfNotFound: true);
+        m_Gamepad_X = m_Gamepad.FindAction("X", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -461,12 +481,14 @@ public class @InputActions : IInputActionCollection, IDisposable
     private IGamepadActions m_GamepadActionsCallbackInterface;
     private readonly InputAction m_Gamepad_Dash;
     private readonly InputAction m_Gamepad_LeftStick;
+    private readonly InputAction m_Gamepad_X;
     public struct GamepadActions
     {
         private @InputActions m_Wrapper;
         public GamepadActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Dash => m_Wrapper.m_Gamepad_Dash;
         public InputAction @LeftStick => m_Wrapper.m_Gamepad_LeftStick;
+        public InputAction @X => m_Wrapper.m_Gamepad_X;
         public InputActionMap Get() { return m_Wrapper.m_Gamepad; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -482,6 +504,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @LeftStick.started -= m_Wrapper.m_GamepadActionsCallbackInterface.OnLeftStick;
                 @LeftStick.performed -= m_Wrapper.m_GamepadActionsCallbackInterface.OnLeftStick;
                 @LeftStick.canceled -= m_Wrapper.m_GamepadActionsCallbackInterface.OnLeftStick;
+                @X.started -= m_Wrapper.m_GamepadActionsCallbackInterface.OnX;
+                @X.performed -= m_Wrapper.m_GamepadActionsCallbackInterface.OnX;
+                @X.canceled -= m_Wrapper.m_GamepadActionsCallbackInterface.OnX;
             }
             m_Wrapper.m_GamepadActionsCallbackInterface = instance;
             if (instance != null)
@@ -492,6 +517,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @LeftStick.started += instance.OnLeftStick;
                 @LeftStick.performed += instance.OnLeftStick;
                 @LeftStick.canceled += instance.OnLeftStick;
+                @X.started += instance.OnX;
+                @X.performed += instance.OnX;
+                @X.canceled += instance.OnX;
             }
         }
     }
@@ -514,5 +542,6 @@ public class @InputActions : IInputActionCollection, IDisposable
     {
         void OnDash(InputAction.CallbackContext context);
         void OnLeftStick(InputAction.CallbackContext context);
+        void OnX(InputAction.CallbackContext context);
     }
 }

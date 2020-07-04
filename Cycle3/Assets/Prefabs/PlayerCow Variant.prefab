@@ -4921,6 +4921,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5968945286912696987, guid: c199ebc05d45c6a47a52dc5d9a235944,
         type: 3}
+    - target: {fileID: 5811087441906623764, guid: 09948de67a209ee48a5178acea03e130,
+        type: 3}
+      propertyPath: gPadRotationSpeed
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 5811087441906623765, guid: 09948de67a209ee48a5178acea03e130,
         type: 3}
       propertyPath: m_Name
