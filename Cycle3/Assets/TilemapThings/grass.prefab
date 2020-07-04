@@ -59,19 +59,45 @@ Tilemap:
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
       m_AllTileFlags: 1073741825
+  - first: {x: -1, y: 1, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 3
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      m_AllTileFlags: 1073741825
+  - first: {x: 0, y: 1, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 2
+      m_TileSpriteIndex: 2
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      m_AllTileFlags: 1073741825
   m_AnimatedTiles: {}
   m_TileAssetArray:
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 0e5a63b03386f7e468beb7df409103b7, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 3658ee605c62e434db58354b06cead48, type: 2}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: 6664955484e066048a28184a89b6e5b5, type: 2}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: c3d31279d0efd84428cfac87e769de81, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: c827fdbbdf6e9584ea93921ff4f7bcfb, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300000, guid: d491fbf7f3cbe2b46a6bd9908007810a, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: f1fae2eb4e4aca84ca8f27fd8f41eecc, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300000, guid: 7786a62520c471d4bbb16d9f0e9d295c, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 2
+  - m_RefCount: 4
     m_Data:
       e00: 1
       e01: 0
@@ -90,13 +116,13 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 2
+  - m_RefCount: 4
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -3, y: -1, z: 0}
-  m_Size: {x: 3, y: 1, z: 1}
+  m_Size: {x: 4, y: 3, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:

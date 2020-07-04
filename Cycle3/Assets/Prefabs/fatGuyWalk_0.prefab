@@ -5281,6 +5281,7 @@ MonoBehaviour:
   shootForce: 2
   bulletPrefab: {fileID: 1430620492065659661, guid: 49fda182670bc174d87788f9fc4bcbf0,
     type: 3}
+  dead: 0
   impactForce: 2
   bloodParticles: {fileID: 4956846097868188501}
   hitDistance: 9
@@ -5288,4 +5289,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   grenadeSpawnPos: {fileID: 4956846097202574341}
-  stillTimeAfterShot: 2
+  stillTimeAfterShot: 0.5

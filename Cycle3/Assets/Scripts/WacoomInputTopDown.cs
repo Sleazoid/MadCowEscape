@@ -120,6 +120,7 @@ public class WacoomInputTopDown : MonoBehaviour
         {
             rb.drag = 8f;
             moveSpeed += 0.21f;
+            //dashDisabledTime += 0.2f;
         }
         // sounds.PlayNoticedClip();
     }
@@ -172,7 +173,7 @@ public class WacoomInputTopDown : MonoBehaviour
     {
         curPenPos = curPen.position.ReadValue();
 
-        if (timeFromLastTip <= rollTipTime && dashEnabled)
+        if (timeFromLastTip <= rollTipTime )
         {
             Attack();
         }
@@ -180,7 +181,7 @@ public class WacoomInputTopDown : MonoBehaviour
     }
     private void Attack()
     {
-        if (!Dead)
+        if (!Dead && dashEnabled)
         {
             // Debug.Log("Attack");
             AttackEvent?.Invoke(true);
@@ -411,15 +412,20 @@ public class WacoomInputTopDown : MonoBehaviour
     {
         if (!Dead && !attacking)
         {
-            //sounds.PlayDeathClip();
-            //rend.sortingOrder =2;
-            //Vector2 dirImpact = this.transform.position - enemyPos;
-            //rb.AddForce(dirImpact.normalized * dyingForce*2, ForceMode2D.Impulse);
-            //Dead = true;
-            //anim.SetBool("Dead", true);
-            //GameManager.Instance.PlayerDead();
-            //bloodGO.SetActive(true);
-            //bloodGO.transform.rotation = this.transform.rotation;
+        
+            DoDeadThings(enemyPos);
+            Vector2 dirImpact = this.transform.position - enemyPos;
+            float angle = Mathf.Atan2(dirImpact.y, dirImpact.x) * Mathf.Rad2Deg;
+            particleCol.ParticlesOn();
+            bloodParticles.transform.eulerAngles = new Vector3(0, 0, angle);
+            bloodParticles.GetComponent<Animator>().SetTrigger("Start");
+            bloodParticles.GetComponent<ParticleSystem>().Play();
+        }
+    }
+    public void PlayerGotDriveOver(Vector3 enemyPos)
+    {
+        if (!Dead)
+        {
             DoDeadThings(enemyPos);
             Vector2 dirImpact = this.transform.position - enemyPos;
             float angle = Mathf.Atan2(dirImpact.y, dirImpact.x) * Mathf.Rad2Deg;

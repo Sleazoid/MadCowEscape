@@ -20,7 +20,7 @@ public class ParticleCollision : MonoBehaviour
         audio = GetComponent<AudioSource>();
         pSystem = GetComponent<ParticleSystem>();
         particles  = new ParticleSystem.Particle[pSystem.main.maxParticles];
-        InvokeRepeating("SetBloodPixels", 0, 0.075f);
+        InvokeRepeating("SetBloodPixels", 0, 0.07f);
     }
 
     // Update is called once per frame

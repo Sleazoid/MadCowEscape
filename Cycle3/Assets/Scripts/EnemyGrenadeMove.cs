@@ -20,7 +20,7 @@ public class EnemyGrenadeMove : MonoBehaviour
     private Rigidbody2D rb;
     private WacoomInputTopDown playerMove;
     private Animator anim;
-    private bool dead = false;
+    public bool dead = false;
     private CapsuleCollider2D triggerCol;
     private bool isOnPlayerRange = false;
     [SerializeField]
@@ -158,6 +158,7 @@ public class EnemyGrenadeMove : MonoBehaviour
             bloodParticles.GetComponent<ParticleSystem>().Play();
             //anim.SetBool("Dead", true);
             dead = true;
+            rb.simulated = false;
             triggerCol.enabled = false;
             Vector2 impactDir = this.transform.position - player.position;
             rb.AddForce(impactDir.normalized * impactForce, ForceMode2D.Impulse);

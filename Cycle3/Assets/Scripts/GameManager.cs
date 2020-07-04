@@ -45,6 +45,9 @@ public class GameManager : MonoBehaviour
     public GoalScript GoalScript { get => goalScript; set => goalScript = value; }
     public GameObject PlayerObject { get => playerObject; set => playerObject = value; }
 
+
+    public delegate void OnLevelFailedChange(bool state);
+    public static event OnLevelFailedChange FailedEvent;
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -136,6 +139,10 @@ public class GameManager : MonoBehaviour
     {
         impulseSource.GenerateImpulse();
     }
+    public void ExplosionImpulseEffect()
+    {
+        impulseSource.GenerateImpulse();
+    }
     public void QuitGame()
     {
         if (SceneManager.GetActiveScene().buildIndex == 0)
@@ -181,6 +188,7 @@ public class GameManager : MonoBehaviour
         {
             GameOverDisableLists[i].SetActive(false);
         }
+        FailedEvent?.Invoke(true);
     }
     private IEnumerator walkAwayEnemies()
     {
@@ -240,6 +248,6 @@ public class GameManager : MonoBehaviour
 
     public void SetDamageToPlayer(Vector3 pos)
     {
-        wacoomInputs.PlayerGotShot(pos);
+        wacoomInputs.PlayerGotDriveOver(pos);
     }
 }

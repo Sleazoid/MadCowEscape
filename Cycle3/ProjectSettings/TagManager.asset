@@ -8,6 +8,7 @@ TagManager:
   - GoalBlock
   - Goal
   - Enemy
+  - Tractor
   layers:
   - Default
   - TransparentFX
@@ -23,8 +24,8 @@ TagManager:
   - enemyBullet
   - PostProcessing
   - Lato
-  - 
-  - 
+  - Tractor
+  - Portti
   - 
   - 
   - 

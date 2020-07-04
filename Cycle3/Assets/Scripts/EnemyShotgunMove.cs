@@ -42,6 +42,7 @@ public class EnemyShotgunMove : MonoBehaviour
     private float stillTimeAfterShot = 1f;
     public bool HuntPlayer { get => huntPlayer; set => huntPlayer = value; }
     public bool WalkAway { get => walkAway; set => walkAway = value; }
+    public float HitDistance { get => hitDistance; set => hitDistance = value; }
 
     // Start is called before the first frame update
     void Start()
@@ -69,7 +70,7 @@ public class EnemyShotgunMove : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawRay(this.transform.position, transform.right * hitDistance);
+        Gizmos.DrawRay(this.transform.position, transform.right * HitDistance);
     }
     private void OnDestroy()
     {
@@ -142,6 +143,7 @@ public class EnemyShotgunMove : MonoBehaviour
     {
         if (isOnPlayerRange && !dead)
         {
+            StopShooting();
             CancelInvoke();
             playerMove.EnableDash();
             GameManager.Instance.CollisionImpulseEffect();
@@ -164,6 +166,7 @@ public class EnemyShotgunMove : MonoBehaviour
             WacoomInputTopDown.AttackEvent -= EnemyIsDead;
             GameManager.Instance.EnemyDied();
             rend.sortingOrder = 0;
+            rb.simulated = false;
         }
 
     }
@@ -230,7 +233,7 @@ public class EnemyShotgunMove : MonoBehaviour
         // Debug.DrawRay(this.transform.position, rayDir * hitDistance);
 
         //  Vector3 rayDir = playerTransform.position - this.transform.position;
-        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, rayDir, hitDistance, ~IgnoreMe);
+        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, rayDir, HitDistance, ~IgnoreMe);
         if (hit)
         {
             //Debug.Log("hit "+ hit.collider.gameObject.name);

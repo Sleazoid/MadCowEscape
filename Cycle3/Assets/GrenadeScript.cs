@@ -27,7 +27,7 @@ public class GrenadeScript : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if(Vector2.Distance(this.flyToPos,this.transform.position)<0.5f)
+        if(Vector2.Distance(this.flyToPos,this.transform.position)<2f)
         {
             rb.velocity = new Vector2(0, 0);
         }

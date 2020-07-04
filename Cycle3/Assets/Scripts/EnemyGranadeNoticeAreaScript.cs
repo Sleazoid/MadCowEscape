@@ -55,7 +55,7 @@ public class EnemyGranadeNoticeAreaScript : MonoBehaviour
             }
             else
             {
-                enemyMove.StopShooting();
+                //enemyMove.StopShooting();
                 enemyMove.HuntPlayer = false;
             }
         }

@@ -118,7 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ExplosionPrefab: {fileID: 829072627636819076, guid: 1a1d97784716d894988a6405c2cfd07c,
     type: 3}
-  timeToExplode: 1.5
+  timeToExplode: 0.9
   throwForce: 500
 --- !u!50 &-1506026840816540706
 Rigidbody2D:

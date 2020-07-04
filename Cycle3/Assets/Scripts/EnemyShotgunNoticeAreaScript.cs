@@ -12,7 +12,7 @@ public class EnemyShotgunNoticeAreaScript : MonoBehaviour
     public LayerMask IgnoreMe;
     private Animator anim;
     private CharacterSounds sounds;
-    [SerializeField]
+   // [SerializeField]
     private float noticeDistance = 6f;
     // Start is called before the first frame update
     void Start()
@@ -21,7 +21,7 @@ public class EnemyShotgunNoticeAreaScript : MonoBehaviour
         enemyMove = this.gameObject.transform.parent.GetComponent<EnemyShotgunMove>();
         anim = enemyMove.gameObject.GetComponent<Animator>();
         sounds = enemyMove.gameObject.GetComponent<CharacterSounds>();
-       
+        noticeDistance = enemyMove.HitDistance;
     }
     private void OnDrawGizmos()
     {
