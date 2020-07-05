@@ -274,6 +274,17 @@ public class @InputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""5a234b43-7369-44f8-8a4b-50095c179c41"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""0d86494b-3b82-4a7d-a1c8-c42b1410ab92"",
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",

@@ -123,6 +123,7 @@ public class WacoomInputTopDown : MonoBehaviour
             //dashDisabledTime += 0.2f;
         }
         // sounds.PlayNoticedClip();
+        UseGamepad = GameManager.Instance.UseGamepad;
     }
     private void LeftStickControlCancelled()
     {

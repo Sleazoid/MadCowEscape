@@ -40,11 +40,12 @@ public class GameManager : MonoBehaviour
     private EnemyMove[] basicEnemyScripts;
     private EnemyGrenadeMove[] grenadeEnemyScripts;
     private GameObject playerObject;
+    private bool useGamepad = true;
     public static GameManager Instance { get => instance; }
     public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
     public GoalScript GoalScript { get => goalScript; set => goalScript = value; }
     public GameObject PlayerObject { get => playerObject; set => playerObject = value; }
-
+    public bool UseGamepad { get => useGamepad; set => useGamepad = value; }
 
     public delegate void OnLevelFailedChange(bool state);
     public static event OnLevelFailedChange FailedEvent;
@@ -120,7 +121,8 @@ public class GameManager : MonoBehaviour
                 mainAudio.enabled = true;
             }
         }
-        levelClearScript.DisableVolume();
+        if(levelClearScript)
+            levelClearScript.DisableVolume();
     }
     private void NextLevelCheat()
     {
@@ -175,7 +177,18 @@ public class GameManager : MonoBehaviour
             GameOverDisableLists[i].SetActive(false);
         }
     }
-
+    public void SetInputDevice(int value)
+    {
+        switch(value)
+        {
+            case 0:
+                useGamepad = true;
+                break;
+            case 1:
+                useGamepad = false;
+                break;
+        }
+    }
     public void LevelFailed()
     {
         CancelInvoke();

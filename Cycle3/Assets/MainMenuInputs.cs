@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class MainMenuInputs : MonoBehaviour
 {
-    InputActions inputActions;
+    //InputActions inputActions;
+    [SerializeField]
+    private GameObject settingPanelGo;
+    [SerializeField]
+    private List<GameObject> mainMenuGos;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,5 +19,22 @@ public class MainMenuInputs : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void OpenSettingsPanel()
+    {
+        for (int i = 0; i < mainMenuGos.Count; i++)
+        {
+            mainMenuGos[i].SetActive(false);
+        }
+        settingPanelGo.SetActive(true);
+    }
+    public void CloseSettingsPanel()
+    {
+        for (int i = 0; i < mainMenuGos.Count; i++)
+        {
+            mainMenuGos[i].SetActive(true);
+        }
+        settingPanelGo.SetActive(false);
     }
 }

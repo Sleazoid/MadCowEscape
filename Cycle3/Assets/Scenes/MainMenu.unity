@@ -3043,11 +3043,15 @@ MonoBehaviour:
   minY: 0
   maxX: 0
   minX: 0
+  cowBloodPrefab: {fileID: 0}
   rollTipTime: 0.3
   dyingForce: 5
   dashDisabledTime: 0.2
   dashAttackTime: 0.2
   bloodGO: {fileID: 597930093}
+  bloodParticles: {fileID: 0}
+  gPadRotationSpeed: 0
+  UseGamepad: 1
 --- !u!114 &1494810152
 MonoBehaviour:
   m_ObjectHideFlags: 0
