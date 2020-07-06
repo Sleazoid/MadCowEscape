@@ -20,7 +20,8 @@ public class TractorDestroyArea : MonoBehaviour
     {
         if(collision.gameObject.tag.Equals("Tractor"))
         {
-            Destroy(collision.gameObject);
+            collision.gameObject.GetComponent<TractorEnemy>().DestroyThisTractor();
+         
         }
     }
 }

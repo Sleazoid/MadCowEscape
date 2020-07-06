@@ -47,7 +47,11 @@ public class EnemyGranadeNoticeAreaScript : MonoBehaviour
                     //sounds.PlayNoticedClip();
                     //   Debug.Log("PLAYER NOTICEd");
                 }
-
+                //else
+                //{
+                //    enemyMove.StopShooting();
+                //    enemyMove.HuntPlayer = false;
+                //}
                 //if (hit.collider != null)
                 //{
                 //    Debug.Log(hit.collider.name);
@@ -55,7 +59,7 @@ public class EnemyGranadeNoticeAreaScript : MonoBehaviour
             }
             else
             {
-                //enemyMove.StopShooting();
+               // enemyMove.StopShooting();
                 enemyMove.HuntPlayer = false;
             }
         }

@@ -41,6 +41,15 @@ public class GameManager : MonoBehaviour
     private EnemyGrenadeMove[] grenadeEnemyScripts;
     private GameObject playerObject;
     private bool useGamepad = true;
+    [SerializeField]
+    private List<MusicSO> musicPlaylist;
+    private int songCount;
+    [SerializeField]
+    private int currentMusicIndex=0;
+    private float currentMusicIndexTime=0;
+    private bool musicIsPlaying = true;
+    [SerializeField]
+    private float songVolume;
     public static GameManager Instance { get => instance; }
     public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
     public GoalScript GoalScript { get => goalScript; set => goalScript = value; }
@@ -64,8 +73,19 @@ public class GameManager : MonoBehaviour
         inputActions.Wacom.Quit.performed += ctx => QuitGame();
         inputActions.Wacom.Retry.performed += ctx => Retry();
         inputActions.Wacom.NextLevel.performed += ctx => NextLevelCheat();
+
+
+        //currentMusicIndex = 0;
+        
     }
- 
+    private void Start()
+    {
+        songCount = musicPlaylist.Count;
+        mainAudio.clip = musicPlaylist[currentMusicIndex].audio;
+        songVolume = musicPlaylist[currentMusicIndex].volume;
+        mainAudio.volume = songVolume;
+        PlayMusic();
+    }
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -76,6 +96,75 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
         //inputActions.Disable();
     }
+    private void PlayMusic()
+    {
+        mainAudio.Play();
+        musicIsPlaying = true;
+        StartCoroutine("VolumeSlideUp");
+    }
+    private void PauseMusic()
+    {
+        StartCoroutine("VolumeSlideDown");
+      
+    }
+    private IEnumerator VolumeSlideUp()
+    {
+        float volume = mainAudio.volume;
+        while(volume<songVolume)
+        {
+            volume += 0.01f;
+            mainAudio.volume = volume;
+            yield return new WaitForSeconds(0.01f);
+            
+        }
+
+        yield return null;
+    }
+    private IEnumerator VolumeSlideDown()
+    {
+        float volume = mainAudio.volume;
+        while (volume > 0)
+        {
+            volume -= 0.1f;
+            mainAudio.volume = volume;
+            yield return new WaitForSeconds(0.01f);
+        }
+        mainAudio.Pause();
+        musicIsPlaying = false;
+        yield return null;
+    }
+    private void NextSong()
+    {
+        
+        if (currentMusicIndex+1 < songCount)
+        {
+            currentMusicIndex++;
+            mainAudio.clip = musicPlaylist[currentMusicIndex].audio;
+            PlayMusic();
+        }
+        else
+        {
+            currentMusicIndex = 0;
+            mainAudio.clip = musicPlaylist[currentMusicIndex].audio;
+            PlayMusic();
+        }
+        currentMusicIndexTime = 0;
+        songVolume = musicPlaylist[currentMusicIndex].volume;
+        mainAudio.volume = songVolume;
+    }
+    private void Update()
+    {
+        if(musicIsPlaying)
+        {
+            currentMusicIndexTime += Time.deltaTime;
+            if(currentMusicIndexTime>mainAudio.clip.length)
+            {
+                
+                musicIsPlaying = false;
+                NextSong();
+            }
+        }
+    }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         CancelInvoke();
@@ -83,7 +172,10 @@ public class GameManager : MonoBehaviour
         {
 
             MainMenuCanvas.SetActive(false);
-            mainAudio.enabled = true;
+            //mainAudio.enabled = true;'
+            PlayMusic();
+
+
             LevelFailedPanelGO.SetActive(false);
             LevelClearedPanelGO.SetActive(false);
             wacoomInputs = GameObject.FindGameObjectWithTag("Player").GetComponent<WacoomInputTopDown>();
@@ -116,9 +208,9 @@ public class GameManager : MonoBehaviour
             LevelClearedPanelGO.SetActive(false);
             InvokeRepeating("ImpulseNoiseMenu", 2f, 4f);
             currentLevel = 0;
-            if (mainAudio.enabled == false)
+            if (musicIsPlaying == false)
             {
-                mainAudio.enabled = true;
+                PlayMusic();
             }
         }
         if(levelClearScript)
@@ -167,7 +259,8 @@ public class GameManager : MonoBehaviour
     {
         wacoomInputs.SetAttackAnimFalse();
         CancelInvoke();
-        mainAudio.enabled = false;
+        //mainAudio.enabled = false;
+        PauseMusic();
         wacoomInputs.enabled = false;
         LevelClearedPanelGO.SetActive(true);
         levelClearScript.EnableVolume();
@@ -193,7 +286,8 @@ public class GameManager : MonoBehaviour
     {
         CancelInvoke();
         CollisionImpulseEffect();
-        mainAudio.enabled = false;
+        //mainAudio.enabled = false;
+        PauseMusic();
         wacoomInputs.enabled = false;
         LevelFailedPanelGO.SetActive(true);
         StartCoroutine(walkAwayEnemies());

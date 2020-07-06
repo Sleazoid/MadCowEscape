@@ -2473,6 +2473,15 @@ MonoBehaviour:
   levelStartPanelGO: {fileID: 4151002400003143822}
   impulseNoiseSource: {fileID: 1799436811}
   impulseNoiseSourceMenu: {fileID: 1939511259}
+  musicPlaylist:
+  - {fileID: 11400000, guid: 7d932e6bae3868941a068294ef06296b, type: 2}
+  - {fileID: 11400000, guid: 93332f46e6a9da34c8c0bbb179ccb221, type: 2}
+  - {fileID: 11400000, guid: 7cb8b1999bba38446a0acbdfdada4737, type: 2}
+  - {fileID: 11400000, guid: ef48a879f59ab5e40a896bebde25b392, type: 2}
+  - {fileID: 11400000, guid: b540a0d3480af94479ff81a66f22c90a, type: 2}
+  - {fileID: 11400000, guid: e7cad5108a086e14f86728f3b82bc5f5, type: 2}
+  currentMusicIndex: 3
+  songVolume: 0
 --- !u!114 &887638945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3358,7 +3367,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.836
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

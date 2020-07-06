@@ -12,9 +12,11 @@ public class TractorEnemy : MonoBehaviour
     private Rigidbody2D rb;
     private WacoomInputTopDown playerMove;
     private Rigidbody2D playerRb;
+    private AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = transform.GetComponentInChildren<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<WacoomInputTopDown>();
@@ -60,4 +62,23 @@ public class TractorEnemy : MonoBehaviour
         }
     }
 
+    private IEnumerator VolumeSlideDown()
+    {
+        float volume = audioSource.volume;
+        while (volume > 0)
+        {
+            volume -= 0.01f;
+            audioSource.volume = volume;
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        Destroy(this.gameObject);
+        yield return null;
+    }
+    public void DestroyThisTractor()
+    {
+        StartCoroutine("VolumeSlideDown");
+    }
+
+    
 }
