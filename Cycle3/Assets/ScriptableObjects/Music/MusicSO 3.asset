@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a1771abeba9f584da88de3c6940eb23, type: 3}
   m_Name: MusicSO 3
   m_EditorClassIdentifier: 
-  artist: Nihilore
-  songName: Motion Blur
+  artist: Smoked Meat Fax Machine
+  songName: More Problems
   showInfo: 1
   volume: 0.836
   audio: {fileID: 8300000, guid: f593246324115f341ac1887769edefb2, type: 3}

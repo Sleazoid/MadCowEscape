@@ -50,6 +50,12 @@ public class GameManager : MonoBehaviour
     private bool musicIsPlaying = true;
     [SerializeField]
     private float songVolume;
+    [SerializeField]
+    private GameObject MusicPlayerCanvas;
+    [SerializeField]
+    private musicPanelScript musicPanelScript;
+    [SerializeField]
+    private TextMeshProUGUI songText;
     public static GameManager Instance { get => instance; }
     public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
     public GoalScript GoalScript { get => goalScript; set => goalScript = value; }
@@ -85,6 +91,12 @@ public class GameManager : MonoBehaviour
         songVolume = musicPlaylist[currentMusicIndex].volume;
         mainAudio.volume = songVolume;
         PlayMusic();
+        if (musicPlaylist[currentMusicIndex].showInfo)
+        {
+            songText.text = musicPlaylist[currentMusicIndex].artist + " - " + musicPlaylist[currentMusicIndex].songName;
+            MusicPlayerCanvas.SetActive(true);
+            musicPanelScript.ShowMusicInfo();
+        }
     }
     private void OnEnable()
     {
@@ -151,6 +163,14 @@ public class GameManager : MonoBehaviour
         currentMusicIndexTime = 0;
         songVolume = musicPlaylist[currentMusicIndex].volume;
         mainAudio.volume = songVolume;
+
+        if(musicPlaylist[currentMusicIndex].showInfo)
+        {
+            songText.text = musicPlaylist[currentMusicIndex].artist + " - " + musicPlaylist[currentMusicIndex].songName;
+            MusicPlayerCanvas.SetActive(true);
+            musicPanelScript.ShowMusicInfo();
+        }
+        
     }
     private void Update()
     {

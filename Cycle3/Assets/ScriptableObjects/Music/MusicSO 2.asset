@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a1771abeba9f584da88de3c6940eb23, type: 3}
   m_Name: MusicSO 2
   m_EditorClassIdentifier: 
-  artist: OKAM
-  songName: Stay
+  artist: Smoked Meat Fax Machine
+  songName: Victory
   showInfo: 1
   volume: 0.7
   audio: {fileID: 8300000, guid: 212da5c82fb45b14e99bd1908e41b40f, type: 3}
