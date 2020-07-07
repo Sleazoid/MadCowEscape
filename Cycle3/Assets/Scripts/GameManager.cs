@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     InputActions inputActions;
     [SerializeField]
+    private GameObject GameFinishCanvas;
+    [SerializeField]
     private GameObject LevelClearedPanelGO;
     [SerializeField]
     private GameObject LevelFailedPanelGO;
@@ -31,12 +33,15 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private CinemachineImpulseSource impulseNoiseSource;
     [SerializeField]
+    private CinemachineImpulseSource impulseNoiseSourceBigger;
+    [SerializeField]
     private CinemachineImpulseSource impulseNoiseSourceMenu;
     private LevelClearScript levelClearScript;
     private int numberOfEnemies;
     private int diedEnemiesCount;
     private GoalScript goalScript;
     private EnemyShotgunMove[] shotGunEnemyScripts;
+    private EnemyRifleMove[] rifleEnemyScripts;
     private EnemyMove[] basicEnemyScripts;
     private EnemyGrenadeMove[] grenadeEnemyScripts;
     private GameObject playerObject;
@@ -45,8 +50,8 @@ public class GameManager : MonoBehaviour
     private List<MusicSO> musicPlaylist;
     private int songCount;
     [SerializeField]
-    private int currentMusicIndex=0;
-    private float currentMusicIndexTime=0;
+    private int currentMusicIndex = 0;
+    private float currentMusicIndexTime = 0;
     private bool musicIsPlaying = true;
     [SerializeField]
     private float songVolume;
@@ -82,7 +87,7 @@ public class GameManager : MonoBehaviour
 
 
         //currentMusicIndex = 0;
-        
+
     }
     private void Start()
     {
@@ -117,17 +122,17 @@ public class GameManager : MonoBehaviour
     private void PauseMusic()
     {
         StartCoroutine("VolumeSlideDown");
-      
+
     }
     private IEnumerator VolumeSlideUp()
     {
         float volume = mainAudio.volume;
-        while(volume<songVolume)
+        while (volume < songVolume)
         {
             volume += 0.01f;
             mainAudio.volume = volume;
             yield return new WaitForSeconds(0.01f);
-            
+
         }
 
         yield return null;
@@ -147,8 +152,8 @@ public class GameManager : MonoBehaviour
     }
     private void NextSong()
     {
-        
-        if (currentMusicIndex+1 < songCount)
+
+        if (currentMusicIndex + 1 < songCount)
         {
             currentMusicIndex++;
             mainAudio.clip = musicPlaylist[currentMusicIndex].audio;
@@ -164,22 +169,22 @@ public class GameManager : MonoBehaviour
         songVolume = musicPlaylist[currentMusicIndex].volume;
         mainAudio.volume = songVolume;
 
-        if(musicPlaylist[currentMusicIndex].showInfo)
+        if (musicPlaylist[currentMusicIndex].showInfo)
         {
             songText.text = musicPlaylist[currentMusicIndex].artist + " - " + musicPlaylist[currentMusicIndex].songName;
             MusicPlayerCanvas.SetActive(true);
             musicPanelScript.ShowMusicInfo();
         }
-        
+
     }
     private void Update()
     {
-        if(musicIsPlaying)
+        if (musicIsPlaying)
         {
             currentMusicIndexTime += Time.deltaTime;
-            if(currentMusicIndexTime>mainAudio.clip.length)
+            if (currentMusicIndexTime > mainAudio.clip.length)
             {
-                
+
                 musicIsPlaying = false;
                 NextSong();
             }
@@ -188,14 +193,16 @@ public class GameManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         CancelInvoke();
-        if (scene.buildIndex != 0)
+        if (scene.buildIndex != 0 && scene.buildIndex != (SceneManager.sceneCountInBuildSettings - 1))
         {
 
             MainMenuCanvas.SetActive(false);
             //mainAudio.enabled = true;'
-            PlayMusic();
-
-
+            if (musicIsPlaying == false)
+            {
+                PlayMusic();
+            }
+            GameFinishCanvas.SetActive(false);
             LevelFailedPanelGO.SetActive(false);
             LevelClearedPanelGO.SetActive(false);
             wacoomInputs = GameObject.FindGameObjectWithTag("Player").GetComponent<WacoomInputTopDown>();
@@ -209,19 +216,29 @@ public class GameManager : MonoBehaviour
             //    GameOverDisableLists[i].SetActive(true);
             //}
             currentLevel = SceneManager.GetActiveScene().buildIndex;
-            InvokeRepeating("ImpulseNoise", 2f, 4f);
+           
             levelClearScript = LevelClearedPanelGO.GetComponent<LevelClearScript>();
             levelClearScript.SetLevelText(currentLevel);
-            
+
             numberOfEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length;
             diedEnemiesCount = 0;
             shotGunEnemyScripts = FindObjectsOfType<EnemyShotgunMove>();
+            rifleEnemyScripts = FindObjectsOfType<EnemyRifleMove>();
             basicEnemyScripts = FindObjectsOfType<EnemyMove>();
             grenadeEnemyScripts = FindObjectsOfType<EnemyGrenadeMove>();
             PlayerObject = GameObject.FindGameObjectWithTag("Player");
+            if(scene.buildIndex >= (SceneManager.sceneCountInBuildSettings - 3))
+            {
+                InvokeRepeating("ImpulseNoiseBigger", 2f, 4f);
+            }
+            else
+            {
+                InvokeRepeating("ImpulseNoise", 2f, 4f);
+            }
         }
-        else
+        else if (scene.buildIndex == 0)
         {
+            GameFinishCanvas.SetActive(false);
             levelStartPanelGO.SetActive(false);
             MainMenuCanvas.SetActive(true);
             LevelFailedPanelGO.SetActive(false);
@@ -233,7 +250,23 @@ public class GameManager : MonoBehaviour
                 PlayMusic();
             }
         }
-        if(levelClearScript)
+        else if (scene.buildIndex == (SceneManager.sceneCountInBuildSettings - 1))
+        {
+            levelStartPanelGO.SetActive(false);
+            MainMenuCanvas.SetActive(false);
+            LevelFailedPanelGO.SetActive(false);
+            LevelClearedPanelGO.SetActive(false);
+            GameFinishCanvas.SetActive(true);
+            InvokeRepeating("ImpulseNoiseMenu", 2f, 4f);
+            currentLevel = SceneManager.GetActiveScene().buildIndex;
+            if (musicIsPlaying == false)
+            {
+                PlayMusic();
+            }
+        }
+
+
+        if (levelClearScript)
             levelClearScript.DisableVolume();
     }
     private void NextLevelCheat()
@@ -243,6 +276,11 @@ public class GameManager : MonoBehaviour
     private void ImpulseNoise()
     {
         impulseNoiseSource.GenerateImpulse();
+    }
+    private void ImpulseNoiseBigger()
+    {
+        impulseNoiseSourceBigger.GenerateImpulse();
+
     }
     private void ImpulseNoiseMenu()
     {
@@ -287,12 +325,13 @@ public class GameManager : MonoBehaviour
         levelClearTimeline.Play();
         for (int i = 0; i < GameOverDisableLists.Count; i++)
         {
-            GameOverDisableLists[i].SetActive(false);
+            if (GameOverDisableLists[i])
+                GameOverDisableLists[i].SetActive(false);
         }
     }
     public void SetInputDevice(int value)
     {
-        switch(value)
+        switch (value)
         {
             case 0:
                 useGamepad = true;
@@ -313,7 +352,8 @@ public class GameManager : MonoBehaviour
         StartCoroutine(walkAwayEnemies());
         for (int i = 0; i < GameOverDisableLists.Count; i++)
         {
-            GameOverDisableLists[i].SetActive(false);
+            if (GameOverDisableLists[i])
+                GameOverDisableLists[i].SetActive(false);
         }
         FailedEvent?.Invoke(true);
     }
@@ -341,6 +381,10 @@ public class GameManager : MonoBehaviour
         {
             grenadeEnemyScripts[i].PlayerIsDead();
         }
+        for (int i = 0; i < rifleEnemyScripts.Length; i++)
+        {
+            rifleEnemyScripts[i].PlayerIsDead();
+        }
         LevelFailed();
     }
 
@@ -352,7 +396,7 @@ public class GameManager : MonoBehaviour
             int nextScene = thisScene.buildIndex + 1;
             //Debug.Log(nextScene);
             //Debug.Log(SceneManager.sceneCount);
-            if (SceneManager.sceneCountInBuildSettings<=nextScene)
+            if (SceneManager.sceneCountInBuildSettings <= nextScene)
             {
                 nextScene = 0;
             }
@@ -367,7 +411,7 @@ public class GameManager : MonoBehaviour
     public void EnemyDied()
     {
         diedEnemiesCount++;
-        if(diedEnemiesCount>= numberOfEnemies)
+        if (diedEnemiesCount >= numberOfEnemies)
         {
             goalScript.OpenTheGoal();
         }

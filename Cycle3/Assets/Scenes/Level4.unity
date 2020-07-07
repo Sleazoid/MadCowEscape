@@ -4726,18 +4726,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 175823489, guid: 92aa69f736bc5174f9ddedfdb7757d25, type: 3}
-      propertyPath: m_SceneBindings.Array.data[0].value
-      value: 
-      objectReference: {fileID: 1759181041}
-    - target: {fileID: 175823489, guid: 92aa69f736bc5174f9ddedfdb7757d25, type: 3}
-      propertyPath: m_SceneBindings.Array.data[1].value
-      value: 
-      objectReference: {fileID: 423903542}
-    - target: {fileID: 175823489, guid: 92aa69f736bc5174f9ddedfdb7757d25, type: 3}
-      propertyPath: m_SceneBindings.Array.data[2].value
-      value: 
-      objectReference: {fileID: 1232694923}
     - target: {fileID: 584703269, guid: 92aa69f736bc5174f9ddedfdb7757d25, type: 3}
       propertyPath: m_Material
       value: 
@@ -4834,6 +4822,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GameManager (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4671605857742162078, guid: 92aa69f736bc5174f9ddedfdb7757d25,
+        type: 3}
+      propertyPath: m_ImpulseDefinition.m_TimeEnvelope.m_SustainTime
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5006065756386593187, guid: 92aa69f736bc5174f9ddedfdb7757d25,
         type: 3}

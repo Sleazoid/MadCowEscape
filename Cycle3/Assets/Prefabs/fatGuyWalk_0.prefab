@@ -5069,7 +5069,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: -1225288970627400790, guid: cbe62b58570e99a4d9f0c9846616b8d4,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5277,7 +5277,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1.3
-  fireRate: 0.5
+  fireRate: 0.3
   shootForce: 2
   bulletPrefab: {fileID: 1430620492065659661, guid: 49fda182670bc174d87788f9fc4bcbf0,
     type: 3}

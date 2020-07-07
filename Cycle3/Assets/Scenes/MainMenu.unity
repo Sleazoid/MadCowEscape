@@ -3995,6 +3995,14 @@ PrefabInstance:
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1534720865, guid: 92aa69f736bc5174f9ddedfdb7757d25, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1534720865, guid: 92aa69f736bc5174f9ddedfdb7757d25, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4109494989630060837, guid: 92aa69f736bc5174f9ddedfdb7757d25,
         type: 3}
       propertyPath: m_LocalPosition.x

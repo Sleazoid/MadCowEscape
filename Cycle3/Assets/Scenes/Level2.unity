@@ -4859,11 +4859,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCow Variant
       objectReference: {fileID: 0}
-    - target: {fileID: 1144211111061401389, guid: 41dcb3251d486fe47915d632256959d7,
-        type: 3}
-      propertyPath: UseGamepad
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41dcb3251d486fe47915d632256959d7, type: 3}
 --- !u!1 &1835363018
@@ -5830,16 +5825,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1510134512566077228, guid: be8ba000edf304f4dafd9e063000a5fd,
-        type: 3}
-      propertyPath: weight
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1510134513373685913, guid: be8ba000edf304f4dafd9e063000a5fd,
-        type: 3}
-      propertyPath: weight
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1510134513611087784, guid: be8ba000edf304f4dafd9e063000a5fd,
         type: 3}
       propertyPath: m_Name
@@ -5898,11 +5883,6 @@ PrefabInstance:
     - target: {fileID: 1510134513611087785, guid: be8ba000edf304f4dafd9e063000a5fd,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1510134513916821220, guid: be8ba000edf304f4dafd9e063000a5fd,
-        type: 3}
-      propertyPath: weight
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

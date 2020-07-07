@@ -16,7 +16,7 @@ MonoBehaviour:
   m_AdvancedMode: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.29
+    m_Value: 0.24
     min: -1
     max: 1
   xMultiplier:
@@ -81,7 +81,7 @@ MonoBehaviour:
     min: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.7
+    m_Value: 0.6
     min: 0
   scatter:
     m_OverrideState: 0
