@@ -105,6 +105,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""NextSong"",
+                    ""type"": ""Button"",
+                    ""id"": ""2f04c309-8b11-4055-aa37-5302c28d2ccf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -228,6 +236,17 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""action"": ""NextLevel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""624f36ad-bdeb-4bf2-a33f-7905d6d2b20d"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NextSong"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -323,6 +342,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Wacom_Quit = m_Wacom.FindAction("Quit", throwIfNotFound: true);
         m_Wacom_Retry = m_Wacom.FindAction("Retry", throwIfNotFound: true);
         m_Wacom_NextLevel = m_Wacom.FindAction("NextLevel", throwIfNotFound: true);
+        m_Wacom_NextSong = m_Wacom.FindAction("NextSong", throwIfNotFound: true);
         // Gamepad
         m_Gamepad = asset.FindActionMap("Gamepad", throwIfNotFound: true);
         m_Gamepad_Dash = m_Gamepad.FindAction("Dash", throwIfNotFound: true);
@@ -388,6 +408,7 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Wacom_Quit;
     private readonly InputAction m_Wacom_Retry;
     private readonly InputAction m_Wacom_NextLevel;
+    private readonly InputAction m_Wacom_NextSong;
     public struct WacomActions
     {
         private @InputActions m_Wrapper;
@@ -403,6 +424,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         public InputAction @Quit => m_Wrapper.m_Wacom_Quit;
         public InputAction @Retry => m_Wrapper.m_Wacom_Retry;
         public InputAction @NextLevel => m_Wrapper.m_Wacom_NextLevel;
+        public InputAction @NextSong => m_Wrapper.m_Wacom_NextSong;
         public InputActionMap Get() { return m_Wrapper.m_Wacom; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -445,6 +467,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @NextLevel.started -= m_Wrapper.m_WacomActionsCallbackInterface.OnNextLevel;
                 @NextLevel.performed -= m_Wrapper.m_WacomActionsCallbackInterface.OnNextLevel;
                 @NextLevel.canceled -= m_Wrapper.m_WacomActionsCallbackInterface.OnNextLevel;
+                @NextSong.started -= m_Wrapper.m_WacomActionsCallbackInterface.OnNextSong;
+                @NextSong.performed -= m_Wrapper.m_WacomActionsCallbackInterface.OnNextSong;
+                @NextSong.canceled -= m_Wrapper.m_WacomActionsCallbackInterface.OnNextSong;
             }
             m_Wrapper.m_WacomActionsCallbackInterface = instance;
             if (instance != null)
@@ -482,6 +507,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @NextLevel.started += instance.OnNextLevel;
                 @NextLevel.performed += instance.OnNextLevel;
                 @NextLevel.canceled += instance.OnNextLevel;
+                @NextSong.started += instance.OnNextSong;
+                @NextSong.performed += instance.OnNextSong;
+                @NextSong.canceled += instance.OnNextSong;
             }
         }
     }
@@ -548,6 +576,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnQuit(InputAction.CallbackContext context);
         void OnRetry(InputAction.CallbackContext context);
         void OnNextLevel(InputAction.CallbackContext context);
+        void OnNextSong(InputAction.CallbackContext context);
     }
     public interface IGamepadActions
     {

@@ -3694,12 +3694,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
---- !u!1 &1895738328 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2078996115, guid: 92aa69f736bc5174f9ddedfdb7757d25,
-    type: 3}
-  m_PrefabInstance: {fileID: 4109494989877946357}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1916570506
 GameObject:
   m_ObjectHideFlags: 0
@@ -3901,12 +3895,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1993009347 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1179714655, guid: 92aa69f736bc5174f9ddedfdb7757d25,
-    type: 3}
-  m_PrefabInstance: {fileID: 4109494989877946357}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2049762830
 GameObject:
   m_ObjectHideFlags: 0
@@ -3997,6 +3985,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 238470724, guid: 92aa69f736bc5174f9ddedfdb7757d25, type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 238470724, guid: 92aa69f736bc5174f9ddedfdb7757d25, type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 238470724, guid: 92aa69f736bc5174f9ddedfdb7757d25, type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 238470724, guid: 92aa69f736bc5174f9ddedfdb7757d25, type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 238470724, guid: 92aa69f736bc5174f9ddedfdb7757d25, type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 584703269, guid: 92aa69f736bc5174f9ddedfdb7757d25, type: 3}
       propertyPath: m_Material
       value: 
@@ -4013,13 +4021,33 @@ PrefabInstance:
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 1534720865, guid: 92aa69f736bc5174f9ddedfdb7757d25, type: 3}
-      propertyPath: m_Material
-      value: 
+    - target: {fileID: 1526706271, guid: 92aa69f736bc5174f9ddedfdb7757d25, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1534720865, guid: 92aa69f736bc5174f9ddedfdb7757d25, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1819249463, guid: 92aa69f736bc5174f9ddedfdb7757d25, type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1819249463, guid: 92aa69f736bc5174f9ddedfdb7757d25, type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1819249463, guid: 92aa69f736bc5174f9ddedfdb7757d25, type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1819249463, guid: 92aa69f736bc5174f9ddedfdb7757d25, type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1819249463, guid: 92aa69f736bc5174f9ddedfdb7757d25, type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4109494989630060837, guid: 92aa69f736bc5174f9ddedfdb7757d25,
         type: 3}
@@ -4081,21 +4109,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 4109494989877946363, guid: 92aa69f736bc5174f9ddedfdb7757d25,
-        type: 3}
-      propertyPath: settingPanelFirstButton
-      value: 
-      objectReference: {fileID: 1895738328}
-    - target: {fileID: 4109494989877946363, guid: 92aa69f736bc5174f9ddedfdb7757d25,
-        type: 3}
-      propertyPath: mainMenuPanelFirstButton
-      value: 
-      objectReference: {fileID: 620538012}
-    - target: {fileID: 4109494989877946363, guid: 92aa69f736bc5174f9ddedfdb7757d25,
-        type: 3}
-      propertyPath: settingCloseButton
-      value: 
-      objectReference: {fileID: 1993009347}
     - target: {fileID: 5006065756386593187, guid: 92aa69f736bc5174f9ddedfdb7757d25,
         type: 3}
       propertyPath: m_Material

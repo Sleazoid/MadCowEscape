@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Playables;
 using Cinemachine;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
     private PlayableDirector levelClearTimeline;
     [SerializeField]
     private List<GameObject> GameOverDisableLists;
+
     private int currentLevel = 0;
     [SerializeField]
     private GameObject levelStartPanelGO;
@@ -85,9 +87,7 @@ public class GameManager : MonoBehaviour
         inputActions.Wacom.Quit.performed += ctx => QuitGame();
         inputActions.Wacom.Retry.performed += ctx => Retry();
         inputActions.Wacom.NextLevel.performed += ctx => NextLevelCheat();
-
-
-        //currentMusicIndex = 0;
+        inputActions.Wacom.NextSong.performed += ctx => NextSongPlease();
 
     }
     private void Start()
@@ -103,6 +103,7 @@ public class GameManager : MonoBehaviour
             MusicPlayerCanvas.SetActive(true);
             musicPanelScript.ShowMusicInfo();
         }
+      
     }
     private void OnEnable()
     {
@@ -172,11 +173,15 @@ public class GameManager : MonoBehaviour
 
         if (musicPlaylist[currentMusicIndex].showInfo)
         {
+           
             songText.text = musicPlaylist[currentMusicIndex].artist + " - " + musicPlaylist[currentMusicIndex].songName;
             MusicPlayerCanvas.SetActive(true);
             musicPanelScript.ShowMusicInfo();
         }
-
+        else
+        {
+            musicPanelScript.HideMusicInfoIfVisible();
+        }
     }
     private void Update()
     {
@@ -269,6 +274,11 @@ public class GameManager : MonoBehaviour
 
         if (levelClearScript)
             levelClearScript.DisableVolume();
+    }
+    private void NextSongPlease()
+    {
+        musicIsPlaying = false;
+        NextSong();
     }
     private void NextLevelCheat()
     {

@@ -92,6 +92,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "NextSong",
+                    "type": "Button",
+                    "id": "2f04c309-8b11-4055-aa37-5302c28d2ccf",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -213,6 +221,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "NextLevel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "624f36ad-bdeb-4bf2-a33f-7905d6d2b20d",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NextSong",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
