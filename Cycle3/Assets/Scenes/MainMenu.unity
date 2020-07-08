@@ -1763,6 +1763,12 @@ Transform:
   m_Father: {fileID: 1494810156}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &620538012 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4109494989968045199, guid: 92aa69f736bc5174f9ddedfdb7757d25,
+    type: 3}
+  m_PrefabInstance: {fileID: 4109494989877946357}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &657433203
 GameObject:
   m_ObjectHideFlags: 0
@@ -3218,7 +3224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 620538012}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &1517895269
@@ -3688,6 +3694,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!1 &1895738328 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2078996115, guid: 92aa69f736bc5174f9ddedfdb7757d25,
+    type: 3}
+  m_PrefabInstance: {fileID: 4109494989877946357}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1916570506
 GameObject:
   m_ObjectHideFlags: 0
@@ -3889,6 +3901,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1993009347 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1179714655, guid: 92aa69f736bc5174f9ddedfdb7757d25,
+    type: 3}
+  m_PrefabInstance: {fileID: 4109494989877946357}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2049762830
 GameObject:
   m_ObjectHideFlags: 0
@@ -4063,6 +4081,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 4109494989877946363, guid: 92aa69f736bc5174f9ddedfdb7757d25,
+        type: 3}
+      propertyPath: settingPanelFirstButton
+      value: 
+      objectReference: {fileID: 1895738328}
+    - target: {fileID: 4109494989877946363, guid: 92aa69f736bc5174f9ddedfdb7757d25,
+        type: 3}
+      propertyPath: mainMenuPanelFirstButton
+      value: 
+      objectReference: {fileID: 620538012}
+    - target: {fileID: 4109494989877946363, guid: 92aa69f736bc5174f9ddedfdb7757d25,
+        type: 3}
+      propertyPath: settingCloseButton
+      value: 
+      objectReference: {fileID: 1993009347}
     - target: {fileID: 5006065756386593187, guid: 92aa69f736bc5174f9ddedfdb7757d25,
         type: 3}
       propertyPath: m_Material

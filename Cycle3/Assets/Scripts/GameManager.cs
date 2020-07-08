@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
     private EnemyGrenadeMove[] grenadeEnemyScripts;
     private GameObject playerObject;
     private bool useGamepad = true;
+    private float gameTime = 0;
     [SerializeField]
     private List<MusicSO> musicPlaylist;
     private int songCount;
@@ -195,7 +196,7 @@ public class GameManager : MonoBehaviour
         CancelInvoke();
         if (scene.buildIndex != 0 && scene.buildIndex != (SceneManager.sceneCountInBuildSettings - 1))
         {
-
+            
             MainMenuCanvas.SetActive(false);
             //mainAudio.enabled = true;'
             if (musicIsPlaying == false)

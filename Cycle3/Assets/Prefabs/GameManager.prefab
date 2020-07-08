@@ -3638,7 +3638,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ef48a879f59ab5e40a896bebde25b392, type: 2}
   - {fileID: 11400000, guid: b540a0d3480af94479ff81a66f22c90a, type: 2}
   - {fileID: 11400000, guid: e7cad5108a086e14f86728f3b82bc5f5, type: 2}
-  currentMusicIndex: 1
+  currentMusicIndex: 0
   songVolume: 0
   MusicPlayerCanvas: {fileID: 1526706271}
   musicPanelScript: {fileID: 926436585813748989}
