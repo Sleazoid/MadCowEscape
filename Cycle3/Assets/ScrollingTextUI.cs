@@ -28,6 +28,7 @@ public class ScrollingTextUI : MonoBehaviour
     }
     public void CheckTextLength()
     {
+        thisRectTrans.anchoredPosition = startPos;
         //thisRectTrans = GetComponent<RectTransform>();
         //startPos = thisRectTrans.anchoredPosition;
         //textMeshText = GetComponent<TextMeshProUGUI>();
